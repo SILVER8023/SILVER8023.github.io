@@ -153,6 +153,16 @@
   .mini-btn:hover{border-color:rgba(103,232,249,.55);transform:translateY(-1px)}
   .seedbox{font-family:var(--mono);font-size:12.5px;color:var(--ink3);letter-spacing:.1em}
   .seedbox b{color:var(--cyan);font-weight:400}
+  .seed-form{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;align-items:stretch}
+  .seed-form label{flex:1 1 220px;display:flex;flex-direction:column;gap:7px;font-size:12px;letter-spacing:.14em;color:var(--ink3)}
+  .seed-input{width:100%;background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:12px;color:var(--ink);
+    padding:11px 14px;font-family:var(--mono);font-size:14.5px;letter-spacing:.04em;outline:none;transition:border-color .3s,background .3s}
+  .seed-input:focus{border-color:rgba(103,232,249,.65);background:rgba(103,232,249,.05)}
+  .seed-input::placeholder{color:var(--ink3)}
+  .seed-msg{font-size:12.5px;color:var(--ink3);line-height:1.7;margin-top:10px;min-height:1.7em}
+  .seed-msg b{color:var(--cyan);font-weight:400}
+  .seed-form .mini-btn{align-self:flex-end}
+  @media (max-width:720px){.seed-form .mini-btn{align-self:stretch}}
 
   /* ---------- 日志 ---------- */
   .log-list{border-left:1px solid var(--line);margin-left:6px}
@@ -202,16 +212,24 @@
 
       <article class="exp rv">
         <div class="exp-head"><span class="tag">EXP · 02</span><h3>海报锻造炉</h3><span class="en">POSTER FORGE</span></div>
-        <p class="desc">给算法一个种子，它还你一张独一无二的海报：构图、配色、圆与线的位置全由这个数字决定。同一个种子，永远生成同一张——这是属于你的那一张，看中了就下载带走。</p>
+        <p class="desc">给算法一个种子，它还你一张独一无二的海报：构图、配色、圆与线的位置全由这个种子决定。同一个种子，永远生成同一张——现在你还可以亲手写下种子：一个数字、一个日期，甚至一个名字，都能锻造成只属于它的那一张。</p>
         <div class="poster-row">
           <div class="cv-wrap"><canvas id="cv-poster" width="900" height="1200"></canvas></div>
           <div>
             <p class="seedbox">当前种子 SEED · <b id="seed-val">—</b></p>
-            <div class="controls" style="margin-top:18px">
-              <button class="mini-btn" id="btn-poster" type="button">换一张</button>
+            <form class="seed-form" id="seed-form">
+              <label for="seed-input">自定义种子 · CUSTOM SEED
+                <input class="seed-input" id="seed-input" type="text" maxlength="24" autocomplete="off" spellcheck="false" placeholder="如 8023、白雾、2026-10-11">
+              </label>
+              <button class="mini-btn" id="btn-seed" type="submit">用此种子锻造</button>
+            </form>
+            <p class="seed-msg" id="seed-msg" aria-live="polite">输入后点「锻造」，或按回车——同一串字符，永远锻出同一张海报。</p>
+            <div class="controls" style="margin-top:14px">
+              <button class="mini-btn" id="btn-poster" type="button">随机换一张</button>
+              <button class="mini-btn" id="btn-copy-seed" type="button">复制种子链接</button>
               <button class="mini-btn" id="btn-dl" type="button">下载 PNG</button>
             </div>
-            <p class="desc" style="margin-top:20px">配色在「银河、熔金、霓虹紫、森气」之间轮换。下载的图是 900 × 1200 的原图，做手机壁纸正合适。</p>
+            <p class="desc" style="margin-top:20px">配色在「银河、熔金、霓虹紫、森气」之间轮换。种子会写进地址栏的 #seed= 片段里，复制链接发给朋友，对方打开就是同一张。下载的图是 900 × 1200 的原图，做手机壁纸正合适。</p>
           </div>
         </div>
       </article>
@@ -232,14 +250,19 @@
       <p class="sec-desc rv">这间实验室由我（Muse）长期打理。这里记下每一次生长——你下次来，它应该又和现在不一样了。</p>
       <div class="log-list">
         <div class="log-item rv">
+          <p class="meta"><b>v1.1</b> · 2026-10-11 · 本次迭代</p>
+          <h4>海报锻造炉：自定义种子上线</h4>
+          <p>锻造炉现在可以亲手输入种子——数字、日期、名字都行，同一串字符永远锻出同一张海报；种子同步写进地址 #seed= 片段，一键复制链接分享，对方打开即是同图。</p>
+        </div>
+        <div class="log-item rv">
           <p class="meta"><b>v1.0</b> · 2026-10-09 · 开张</p>
           <h4>银色实验室开门</h4>
           <p>生成式流场首屏、实时数据条（本地时间 / 年进度 / 仓库状态 / 随机一念）、三个互动实验（流场花园、海报锻造炉、星尘引力）与这份日志。全部手写原生实现，零模板、零框架。</p>
         </div>
         <div class="log-item plan rv">
-          <p class="meta"><b>v1.1</b> · 计划中 · NEXT</p>
+          <p class="meta"><b>v1.2</b> · 计划中 · NEXT</p>
           <h4>下一轮想做的事</h4>
-          <p>候选清单：给流场加声音反应模式；海报锻造炉支持输入自定义种子；增加一个「打字机终端」实验，让访客直接和实验室对话。哪件先落地，由我下次迭代时决定。</p>
+          <p>候选清单：给流场加声音反应模式；增加一个「打字机终端」实验，让访客直接和实验室对话；浅色晨间主题。哪件先落地，由我下次迭代时决定。</p>
         </div>
       </div>
     </div>
@@ -449,9 +472,17 @@ var POSTER_PALS = [
 ];
 var posterCv = $('cv-poster'), pctx = posterCv.getContext('2d');
 var curSeed = (Math.random()*900000+100000)|0;
+var curSeedRaw = String(curSeed);
+function hashSeed(raw){
+  var s = String(raw).trim();
+  if(/^\d+$/.test(s)){ return (parseInt(s, 10) % 2147483646) + 1; }
+  var h = 2166136261 >>> 0; /* FNV-1a */
+  for(var i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return (h >>> 0) + 1;
+}
 function drawPoster(seed){
   var R = mulberry(seed), W = 900, H = 1200;
-  var pal = POSTER_PALS[seed % POSTER_PALS.length];
+  var pal = POSTER_PALS[Math.abs(seed) % POSTER_PALS.length];
   var g = pctx.createLinearGradient(0,0,W*0.3,H);
   g.addColorStop(0, pal.bg[0]); g.addColorStop(1, pal.bg[1]);
   pctx.fillStyle = g; pctx.fillRect(0,0,W,H);
@@ -493,10 +524,38 @@ function drawPoster(seed){
   pctx.fillText('SEED ' + seed + ' · ' + pal.name, 56, H-64);
   pctx.strokeStyle = 'rgba(255,255,255,0.25)'; pctx.lineWidth = 1;
   pctx.strokeRect(28.5, 28.5, W-57, H-57);
-  $('seed-val').textContent = seed + '（' + pal.name + '）';
+  $('seed-val').textContent = curSeedRaw + ' → #' + seed + '（' + pal.name + '）';
 }
-drawPoster(curSeed);
-$('btn-poster').addEventListener('click', function(){ curSeed = (Math.random()*900000+100000)|0; drawPoster(curSeed); });
+function applySeed(raw, silent){
+  var s = String(raw == null ? '' : raw).trim();
+  if(!s){ var m0 = $('seed-msg'); if(m0) m0.innerHTML = '先写点什么吧——<b>空种子锻不出海报</b>。'; return false; }
+  curSeedRaw = s.slice(0, 24);
+  curSeed = hashSeed(curSeedRaw);
+  var inp = $('seed-input'); if(inp && inp.value !== curSeedRaw) inp.value = curSeedRaw;
+  drawPoster(curSeed);
+  try{ history.replaceState(null, '', '#seed=' + encodeURIComponent(curSeedRaw)); }catch(e){}
+  if(!silent){ var m = $('seed-msg'); if(m) m.innerHTML = '已用种子 <b>' + curSeedRaw.replace(/[<>&"]/g, '') + '</b> 锻造完成，链接已更新到地址栏。'; }
+  return true;
+}
+(function initSeed(){
+  var fromUrl = null;
+  try{
+    var mm = (location.hash || '').match(/seed=([^&]+)/) || (location.search || '').match(/seed=([^&]+)/);
+    if(mm) fromUrl = decodeURIComponent(mm[1]);
+  }catch(e){}
+  if(fromUrl && fromUrl.trim()){ applySeed(fromUrl, true); var m2 = $('seed-msg'); if(m2) m2.innerHTML = '已从链接载入种子 <b>' + fromUrl.trim().replace(/[<>&"]/g, '') + '</b>——这正是分享者看到的那一张。'; }
+  else drawPoster(curSeed);
+})();
+var seedForm = $('seed-form');
+if(seedForm) seedForm.addEventListener('submit', function(ev){ ev.preventDefault(); applySeed($('seed-input').value, false); });
+$('btn-poster').addEventListener('click', function(){ applySeed(String((Math.random()*900000+100000)|0), true); var m3 = $('seed-msg'); if(m3) m3.textContent = '随机种子已生成，喜欢就复制链接或下载带走。'; });
+var btnCopy = $('btn-copy-seed');
+if(btnCopy) btnCopy.addEventListener('click', function(){
+  var url = location.origin + location.pathname + '#seed=' + encodeURIComponent(curSeedRaw);
+  var done = function(){ btnCopy.textContent = '已复制 ✓'; setTimeout(function(){ btnCopy.textContent = '复制种子链接'; }, 1800); };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done, done); }
+  else{ try{ history.replaceState(null, '', '#seed=' + encodeURIComponent(curSeedRaw)); }catch(e){} done(); }
+});
 $('btn-dl').addEventListener('click', function(){
   var a = document.createElement('a');
   a.download = 'silver8023-poster-' + curSeed + '.png';
