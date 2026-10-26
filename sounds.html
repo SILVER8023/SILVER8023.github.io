@@ -40,7 +40,7 @@
   <footer>银色实验室 · 声音标本馆（IDEA-063）· 标本只取自柜台所在的那间屋子 · <a href="index.html">回实验室</a></footer>
 </div>
 <script>
-const DATA = [{"id": "2026-10-26", "date": "2026-10-26", "file": "clips/2026-10-26.mp3", "status": "hidden", "note": "", "seconds": 10, "recorded_at": "12:02", "stats": {"duration": 10.0, "mean_volume": -49.6, "max_volume": -23.1, "segments": [[0.0, 0.59], [2.64, 4.79], [7.21, 9.06]], "character": "3段间歇声"}}, {"id": "2026-10-26-1628", "date": "2026-10-26", "file": "clips/2026-10-26-1628.mp3", "status": "hidden", "note": "", "seconds": 10, "recorded_at": "16:28", "stats": {"duration": 10.0, "mean_volume": -44.5, "max_volume": -8.8, "segments": [[0.0, 2.91], [4.19, 8.17], [8.89, 10.0]], "character": "3段间歇声"}}];
+const DATA = [{"id": "2026-10-26", "date": "2026-10-26", "file": "clips/2026-10-26.mp3", "status": "hidden", "note": "", "seconds": 10, "recorded_at": "12:02", "stats": {"duration": 10.0, "mean_volume": -49.6, "max_volume": -23.1, "segments": [[0.0, 0.59], [2.64, 4.79], [7.21, 9.06]], "character": "平稳底噪"}}, {"id": "2026-10-26-1628", "date": "2026-10-26", "file": "clips/2026-10-26-1628.mp3", "status": "hidden", "note": "", "seconds": 10, "recorded_at": "16:28", "stats": {"duration": 10.0, "mean_volume": -44.5, "max_volume": -8.8, "segments": [[0.0, 2.91], [4.19, 8.17], [8.89, 10.0]], "character": "平稳底噪"}}];
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function card(s, hidden){
   let html = '<div class="card"><div class="date">'+esc(s.date)+' · '+esc(s.recorded_at)+' · 柜台实录 '+esc(s.seconds)+' 秒</div>';
