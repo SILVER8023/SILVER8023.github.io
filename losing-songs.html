@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>落选歌单 · 银色实验室</title>
+<style>
+  :root{--bg:#101418;--panel:#181e24;--ink:#e8e2d6;--ink2:#9aa5ad;--line:#2a333b;--accent:#d8b96a}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Serif SC",serif;line-height:1.8}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 20px 80px}
+  a{color:var(--accent)}
+  h1{font-size:30px;letter-spacing:.12em;margin:0 0 6px}
+  .sub{color:var(--ink2);font-size:14px;margin:0 0 28px}
+  .how{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:14px;color:var(--ink2);margin-bottom:36px}
+  .tabs{display:flex;gap:8px;margin-bottom:24px}
+  .tabs button{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:8px 16px;font-size:14px;cursor:pointer}
+  .tabs button.on{background:var(--accent);color:#101418;border-color:var(--accent)}
+  .stats{color:var(--ink2);font-size:14px;margin-bottom:8px}
+  .group{font-size:18px;letter-spacing:.14em;margin:40px 0 16px;border-bottom:1px solid var(--line);padding-bottom:8px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+  .card .date{font-size:13px;color:var(--ink2);letter-spacing:.1em}
+  .card .title{font-size:17px;margin:4px 0 10px}
+  .card .title a{color:var(--ink);text-decoration:none}
+  .card .title a:hover{color:var(--accent)}
+  .meta{font-size:14px;color:var(--ink2)}
+  .badge{display:inline-block;font-size:12.5px;border-radius:8px;padding:2px 10px;margin-left:8px;vertical-align:middle}
+  .badge.waiting{background:#2a333b;color:var(--ink2)}
+  .badge.revived{background:var(--accent);color:#101418}
+  .revive{font-size:14px;color:var(--accent);margin-top:8px}
+  .note{font-size:13px;color:var(--ink2);margin-top:6px}
+  .empty{color:var(--ink2);font-size:14px}
+  footer{margin-top:56px;font-size:12.5px;color:var(--ink2);border-top:1px solid var(--line);padding-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>落选歌单</h1>
+  <p class="sub">每天被淘汰的那首歌也有个家。每日一首只取一首进歌单，没选上的候选都记在这里，等复活。</p>
+  <div class="how">玩法：每日一首流程不变，只多一步——当天没选上的候选自动入档。每周复活夜由白雾亲手从馆里捞一首进正式歌单，复活后这里会翻成“已复活”并留一句复活理由。落选不是不好听，只是那天没轮上。</div>
+  <div class="tabs"><button id="tab-days" class="on" onclick="show('days')">按落选天数</button><button id="tab-artist" onclick="show('artist')">按歌手</button></div>
+  <div class="stats" id="stats"></div>
+  <div id="list"></div>
+  <footer>银色实验室 · 落选歌单（IDEA-068）· 落选理由不知道的写未知，不编造 · <a href="index.html">回实验室</a></footer>
+</div>
+<script>
+const DATA = [{"title": "无人之岛", "artist": "Ren Ran", "uri": "spotify:track:4wrX3x09Z41EoqFT6BtcFi", "url": "https://open.spotify.com/track/4wrX3x09Z41EoqFT6BtcFi?si=Wdt6qSZPQ5yi_2KGwXHXDw", "lost_date": "2026-10-09", "winner_title": "飞鸟和蝉", "winner_artist": "Ren Ran", "reason": "未知", "revived": false, "revive_reason": "", "source": "种子：today_candidates.json（2026-10-09 残留清单）+ history.json 当日胜出者", "note": "后于 2026-10-12 作为当日胜出者入单"}, {"title": "后继者", "artist": "Ren Ran", "uri": "spotify:track:7gir8wyXunvKEJBGcLA3ku", "url": "https://open.spotify.com/track/7gir8wyXunvKEJBGcLA3ku?si=nrczzad8SHapABrmsfSObg", "lost_date": "2026-10-09", "winner_title": "飞鸟和蝉", "winner_artist": "Ren Ran", "reason": "未知", "revived": false, "revive_reason": "", "source": "种子：today_candidates.json（2026-10-09 残留清单）+ history.json 当日胜出者", "note": "后于 2026-10-17 作为当日胜出者入单"}, {"title": "雀跃", "artist": "Ren Ran, 小来哥", "uri": "spotify:track:50pLrfdz4jLrWpZJz9RHWw", "url": "https://open.spotify.com/track/50pLrfdz4jLrWpZJz9RHWw?si=zVswyOxKSi6ajP5MMClVUA", "lost_date": "2026-10-09", "winner_title": "飞鸟和蝉", "winner_artist": "Ren Ran", "reason": "未知", "revived": false, "revive_reason": "", "source": "种子：today_candidates.json（2026-10-09 残留清单）+ history.json 当日胜出者"}, {"title": "走不出的回忆", "artist": "Ren Ran", "uri": "spotify:track:1TTwGC6dWyJXDuTh4UKaSc", "url": "https://open.spotify.com/track/1TTwGC6dWyJXDuTh4UKaSc?si=ATOrQooESgiByOoJvxigLg", "lost_date": "2026-10-09", "winner_title": "飞鸟和蝉", "winner_artist": "Ren Ran", "reason": "未知", "revived": false, "revive_reason": "", "source": "种子：today_candidates.json（2026-10-09 残留清单）+ history.json 当日胜出者"}, {"title": "飞鸟和蝉", "artist": "Ren Ran", "uri": "spotify:track:3fpOVbbl6E02KvhXdTvg4r", "url": "https://open.spotify.com/track/3fpOVbbl6E02KvhXdTvg4r?si=ylHsRJLnTnaAYq5jQ4Fp5w", "lost_date": "2026-10-09", "winner_title": "飞鸟和蝉", "winner_artist": "Ren Ran", "reason": "未知", "revived": false, "revive_reason": "", "source": "种子：today_candidates.json（2026-10-09 残留清单）+ history.json 当日胜出者", "note": "同名不同版本（另一 uri），当日未被选中"}];
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function daysSince(d){
+  const t = new Date(); t.setHours(0,0,0,0);
+  const a = new Date(d+'T00:00:00');
+  return Math.max(0, Math.round((t-a)/86400000));
+}
+function card(s){
+  const days = daysSince(s.lost_date);
+  let html = '<div class="card"><div class="date">'+esc(s.lost_date)+' 落选 · 已等 '+days+' 天';
+  html += s.revived ? '<span class="badge revived">已复活</span>' : '<span class="badge waiting">落选馆中</span>';
+  html += '</div><div class="title">';
+  html += s.url ? '<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+esc(s.title)+'</a>' : esc(s.title);
+  html += ' — '+esc(s.artist)+'</div>';
+  html += '<div class="meta">当天胜出：《'+esc(s.winner_title)+'》— '+esc(s.winner_artist)+'</div>';
+  html += '<div class="meta">它差一点赢在哪：'+esc(s.reason==='未知' ? '未知（入档时未记录理由）' : s.reason)+'</div>';
+  if(s.revived && s.revive_reason) html += '<div class="revive">复活理由：'+esc(s.revive_reason)+'</div>';
+  if(s.note) html += '<div class="note">注：'+esc(s.note)+'</div>';
+  return html + '</div>';
+}
+function renderDays(){
+  const list = DATA.slice().sort((a,b)=>a.lost_date.localeCompare(b.lost_date));
+  document.getElementById('list').innerHTML = list.length ? list.map(card).join('') : '<p class="empty">馆里还是空的，第一首落选歌入档后出现在这里。</p>';
+}
+function renderArtist(){
+  const groups = {};
+  DATA.forEach(s=>{ (groups[s.artist] = groups[s.artist] || []).push(s); });
+  const names = Object.keys(groups).sort();
+  let html = '';
+  names.forEach(n=>{
+    const items = groups[n].sort((a,b)=>b.lost_date.localeCompare(a.lost_date));
+    html += '<div class="group">'+esc(n)+'（'+items.length+' 首）</div>' + items.map(card).join('');
+  });
+  document.getElementById('list').innerHTML = html || '<p class="empty">馆里还是空的，第一首落选歌入档后出现在这里。</p>';
+}
+function show(mode){
+  document.getElementById('tab-days').className = mode==='days' ? 'on' : '';
+  document.getElementById('tab-artist').className = mode==='artist' ? 'on' : '';
+  if(mode==='days') renderDays(); else renderArtist();
+}
+const revived = DATA.filter(s=>s.revived).length;
+document.getElementById('stats').textContent = '馆中共 '+DATA.length+' 首 · 已复活 '+revived+' 首 · 等得最久的落选于 '+ (DATA.length ? DATA.map(s=>s.lost_date).sort()[0] : '—');
+show('days');
+</script>
+</body>
+</html>
