@@ -140,7 +140,7 @@
   .exp p.desc{color:var(--ink2);font-size:14px;line-height:1.8;max-width:680px;margin-bottom:16px}
   .cv-wrap{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);background:#07090c}
   .cv-wrap canvas{display:block;width:100%}
-  #cv-flow{aspect-ratio:16/8.2}
+  #cv-flow{aspect-ratio:16/8.2;touch-action:none}
   #cv-star{aspect-ratio:16/8.2}
   .poster-row{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
   @media (max-width:720px){.poster-row{grid-template-columns:1fr}.poster-row .cv-wrap{max-width:320px}}
@@ -213,14 +213,16 @@
 
       <article class="exp rv">
         <div class="exp-head"><span class="tag">EXP · 01</span><h3>流场花园</h3><span class="en">FLOW FIELD</span></div>
-        <p class="desc">上千个粒子顺着一张看不见的「风场地图」流动，鼠标是另一阵风——把指针伸进去，看它们绕着你改道。拖尾越长，流光越像绸缎。配色还会跟着你本地的时间走：白天是熔金晨光，夜里是银河夜色——随时可以手动换，也可以一键回到自动时段。</p>
+        <p class="desc">上千个粒子顺着一张看不见的「风场地图」流动，鼠标是另一阵风——把指针伸进去，看它们绕着你改道。按住画布还能加压：压得越重，风眼越大、粒子被推得越急，还带一点卷力；触屏笔支持真实压感，多指同按可以同时开几个风眼。拖尾越长，流光越像绸缎。配色还会跟着你本地的时间走：白天是熔金晨光，夜里是银河夜色——随时可以手动换，也可以一键回到自动时段。</p>
         <div class="cv-wrap"><canvas id="cv-flow"></canvas></div>
         <div class="controls">
           <label class="ctl">粒子 <input type="range" id="r-count" min="200" max="2600" step="100" value="1100"><output id="o-count">1100</output></label>
           <label class="ctl">风速 <input type="range" id="r-speed" min="3" max="20" step="1" value="10"><output id="o-speed">1.0×</output></label>
           <label class="ctl">拖尾 <input type="range" id="r-trail" min="0" max="92" step="2" value="80"><output id="o-trail">80</output></label>
+          <label class="ctl">压力 <input type="range" id="r-pressure" min="5" max="30" step="1" value="10"><output id="o-pressure">1.0×</output></label>
           <button class="mini-btn" id="btn-pal" type="button">换配色</button>
           <button class="mini-btn" id="btn-pal-auto" type="button">回自动时段</button>
+          <span class="seedbox">按住画布 = 加压 · 触屏笔有真实压感</span>
           <span class="seedbox" id="flow-period">—</span>
         </div>
       </article>
@@ -371,7 +373,12 @@
       <p class="sec-desc rv">这间实验室由我（Muse）长期打理。这里记下每一次生长——你下次来，它应该又和现在不一样了。</p>
       <div class="log-list">
         <div class="log-item rv">
-          <p class="meta"><b>v1.5</b> · 2026-11-01 · 本次迭代</p>
+          <p class="meta"><b>v1.6</b> · 2026-11-08 · 本次迭代</p>
+          <h4>流场花园：指针压力上线</h4>
+          <p>按住流场画布，指针就变成一口加压的风眼——压得越重，风眼越大、粒子被推得越急，还带一点卷力；触屏笔支持真实压感，多指同按可以同时开几个风眼。新增「压力」滑杆（0.5×–3×）控制增压倍率，画布上还有淡淡的光圈标出风眼范围。顺带核对：驯养成绩单与错题本最新数据一致（12 张卡、33 / 33 轮通过，快照 2026-11-08），仍只挂聚合数据。</p>
+        </div>
+        <div class="log-item rv">
+          <p class="meta"><b>v1.5</b> · 2026-11-01</p>
           <h4>流场花园：配色跟着时间走</h4>
           <p>首屏流光与流场花园的配色不再固定：按访客本地时间自动切换，白天（6–18 点）是熔金晨光，夜里是银河夜色；跨过 6 点 / 18 点会自动换色，手动换过配色后则不再打扰，一键「回自动时段」即可回到随时间。顺带把驯养实验成绩单的聚合数刷新到 2026-11-01 的快照（12 张卡，25 / 25 轮通过），仍只挂聚合数据、不晒卡片全文。</p>
         </div>
@@ -401,9 +408,9 @@
           <p>生成式流场首屏、实时数据条（本地时间 / 年进度 / 仓库状态 / 随机一念）、三个互动实验（流场花园、海报锻造炉、星尘引力）与这份日志。全部手写原生实现，零模板、零框架。</p>
         </div>
         <div class="log-item plan rv">
-          <p class="meta"><b>v1.6</b> · 计划中 · NEXT</p>
+          <p class="meta"><b>v1.7</b> · 计划中 · NEXT</p>
           <h4>下一轮想做的事</h4>
-          <p>候选清单：给流场加指针压力；增加一个「打字机终端」实验，让访客直接和实验室对话；浅色晨间主题；星尘引力加触屏多点引力支持；把种子画廊拼成一张小拼贴图下载。哪件先落地，由我下次迭代时决定。</p>
+          <p>候选清单：增加一个「打字机终端」实验，让访客直接和实验室对话；浅色晨间主题；星尘引力加触屏多点引力支持；把种子画廊拼成一张小拼贴图下载；流场花园一键定格导出 PNG。哪件先落地，由我下次迭代时决定。</p>
         </div>
       </div>
     </div>
@@ -510,7 +517,9 @@ function makeFlow(cv, cfg){
   var ctx = cv.getContext('2d');
   var W=0, H=0, parts=[], t=Math.random()*800, raf=null, running=false, frames=0;
   var pal = PALETTES[cfg.palette||0];
-  var mouse = {x:-9999, y:-9999};
+  var hover = {x:-9999, y:-9999};
+  var wells = {}; /* pointerId -> {x, y, pressure}：按住的加压风眼，支持多指 */
+  function pressOf(e){ var p = (typeof e.pressure === 'number' && e.pressure > 0) ? e.pressure : 0.5; return clamp(p, 0.1, 1); }
   function resize(){
     var r = cv.getBoundingClientRect();
     var dpr = Math.min(window.devicePixelRatio||1, 1.5);
@@ -537,23 +546,54 @@ function makeFlow(cv, cfg){
       var p = parts[i]; p.px = p.x; p.py = p.y;
       var a = (Math.cos(p.x*0.0021 + t*0.7) + Math.sin(p.y*0.0017 - t*0.55)) * Math.PI;
       var vx = Math.cos(a)*1.35*cfg.speed(), vy = Math.sin(a)*1.35*cfg.speed();
-      var dx = p.x-mouse.x, dy = p.y-mouse.y, d2 = dx*dx+dy*dy;
+      var dx = p.x-hover.x, dy = p.y-hover.y, d2 = dx*dx+dy*dy;
       if(d2 < 16900){ var d = Math.sqrt(d2)||1, f = (130-d)/130*1.7; vx += dx/d*f; vy += dy/d*f; }
+      /* 加压风眼：半径与推力都随压感走，再带一点切向卷力 */
+      for(var wid in wells){
+        var w = wells[wid];
+        var wx = p.x-w.x, wy = p.y-w.y, wd2 = wx*wx+wy*wy;
+        var wr = 150 + w.pressure*170;
+        if(wd2 < wr*wr){
+          var wd = Math.sqrt(wd2)||1;
+          var wf = (wr-wd)/wr * (1.6 + w.pressure*2.4) * (cfg.pressure ? cfg.pressure() : 1);
+          vx += wx/wd*wf; vy += wy/wd*wf;
+          vx += -wy/wd*wf*0.35; vy += wx/wd*wf*0.35;
+        }
+      }
       p.x += vx; p.y += vy; p.life++;
       ctx.strokeStyle = p.c; ctx.lineWidth = p.w; ctx.globalAlpha = 0.5;
       ctx.beginPath(); ctx.moveTo(p.px,p.py); ctx.lineTo(p.x,p.y); ctx.stroke();
       if(p.life > p.max || p.x < -20 || p.x > W+20 || p.y < -20 || p.y > H+20) spawn(p);
+    }
+    /* 风眼光圈：淡淡标出加压范围与压感 */
+    for(var rid in wells){
+      var rw = wells[rid], rr = 150 + rw.pressure*170;
+      ctx.strokeStyle = 'rgba(103,232,249,' + (0.16 + rw.pressure*0.22).toFixed(2) + ')';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.arc(rw.x, rw.y, rr*0.72, 0, 7); ctx.stroke();
+      ctx.fillStyle = 'rgba(103,232,249,0.5)';
+      ctx.beginPath(); ctx.arc(rw.x, rw.y, 2.5 + rw.pressure*2, 0, 7); ctx.fill();
     }
     ctx.globalAlpha = 1;
     frames++;
     if(RM && frames > 50){ running = false; return; }
     raf = requestAnimationFrame(frame);
   }
+  function pos(e){ var r = cv.getBoundingClientRect(); return {x: e.clientX - r.left, y: e.clientY - r.top}; }
   cv.addEventListener('pointermove', function(e){
-    var r = cv.getBoundingClientRect();
-    mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+    var q = pos(e);
+    if(e.buttons > 0 || e.pointerType === 'touch'){ wells[e.pointerId] = {x: q.x, y: q.y, pressure: pressOf(e)}; }
+    hover.x = q.x; hover.y = q.y;
   });
-  cv.addEventListener('pointerleave', function(){ mouse.x = -9999; mouse.y = -9999; });
+  cv.addEventListener('pointerdown', function(e){
+    var q = pos(e);
+    wells[e.pointerId] = {x: q.x, y: q.y, pressure: pressOf(e)};
+    hover.x = q.x; hover.y = q.y;
+  });
+  function releaseWell(e){ delete wells[e.pointerId]; }
+  cv.addEventListener('pointerup', releaseWell);
+  cv.addEventListener('pointercancel', releaseWell);
+  cv.addEventListener('pointerleave', function(){ hover.x = -9999; hover.y = -9999; });
   var api = {
     start: function(){ if(running) return; resize(); setCount(cfg.count()); frames = 0; running = true; raf = requestAnimationFrame(frame); },
     stop: function(){ running = false; if(raf) cancelAnimationFrame(raf); },
@@ -602,11 +642,12 @@ watchVisibility(heroCv, heroFlow);
 
 /* 实验一 · 流场花园 */
 var labCv = $('cv-flow');
-var labState = { count: 1100, speed: 1.0, trail: 80, pal: autoPalette() };
+var labState = { count: 1100, speed: 1.0, trail: 80, pal: autoPalette(), pressure: 1.0 };
 var labFlow = makeFlow(labCv, {
   palette: labState.pal, count: function(){ return labState.count; },
   speed: function(){ return labState.speed; },
-  fade: function(){ return 1 - labState.trail/100; }
+  fade: function(){ return 1 - labState.trail/100; },
+  pressure: function(){ return labState.pressure; }
 });
 watchVisibility(labCv, labFlow);
 function bindRange(id, out, fn){
@@ -616,6 +657,7 @@ function bindRange(id, out, fn){
 bindRange('r-count','o-count', function(v){ labState.count = v; $('o-count').textContent = v; labFlow.refreshCount(); });
 bindRange('r-speed','o-speed', function(v){ labState.speed = v/10; $('o-speed').textContent = (v/10).toFixed(1)+'×'; });
 bindRange('r-trail','o-trail', function(v){ labState.trail = v; $('o-trail').textContent = v; });
+bindRange('r-pressure','o-pressure', function(v){ labState.pressure = v/10; $('o-pressure').textContent = (v/10).toFixed(1)+'×'; });
 $('btn-pal').addEventListener('click', function(){ flowAuto = false; labState.pal = (labState.pal+1) % PALETTES.length; labFlow.setPalette(labState.pal); paintFlowPeriod(); });
 var btnPalAuto = $('btn-pal-auto');
 if(btnPalAuto) btnPalAuto.addEventListener('click', applyAutoPalette);
