@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>买笔记本小助手</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f6f8; color: #222; line-height: 1.7; padding: 16px; }
+  .wrap { max-width: 680px; margin: 0 auto; }
+  header { text-align: center; padding: 28px 12px 8px; }
+  header h1 { font-size: 26px; }
+  header p { color: #666; font-size: 15px; margin-top: 6px; }
+  .note { background: #fff8e6; border-left: 4px solid #f5a623; border-radius: 8px; padding: 10px 14px; margin-top: 14px; font-size: 14px; color: #7a5b00; }
+  .card { background: #fff; border-radius: 14px; padding: 20px; margin-top: 16px; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+  .qcard { background: #fff; border: none; border-radius: 14px; padding: 20px; margin-top: 16px; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+  .qcard legend { font-size: 18px; font-weight: bold; padding: 0 6px; }
+  .qnum { color: #2f7cf6; font-size: 13px; font-weight: bold; display: block; margin-bottom: 2px; }
+  .opt { display: block; background: #f4f6f8; border: 2px solid transparent; border-radius: 12px; padding: 12px 14px; margin-top: 10px; font-size: 16px; cursor: pointer; }
+  .opt small { display: block; color: #888; font-size: 13px; margin-top: 2px; margin-left: 28px; }
+  .opt input { margin-right: 8px; transform: scale(1.3); vertical-align: middle; }
+  .opt:has(input:checked) { border-color: #2f7cf6; background: #e3edff; }
+  button.main { display: block; width: 100%; background: #2f7cf6; color: #fff; border: none; border-radius: 12px; padding: 15px; font-size: 17px; cursor: pointer; margin-top: 16px; }
+  button.ghost { background: #fff; border: 1px solid #ccc; border-radius: 12px; padding: 12px 18px; font-size: 16px; cursor: pointer; margin-top: 14px; }
+  #warn { color: #c00; font-size: 15px; margin-top: 10px; text-align: center; }
+  .result h2 { color: #1a7f37; }
+  .rec { background: #f0f7ff; border-radius: 12px; padding: 16px; margin: 12px 0; }
+  .rec .line { display: flex; gap: 8px; padding: 7px 0; border-bottom: 1px dashed #d5e4f7; font-size: 15px; }
+  .rec .line:last-child { border-bottom: none; }
+  .rec .k { min-width: 64px; font-weight: bold; color: #2f7cf6; flex-shrink: 0; }
+  .tip { background: #fff8e6; border-left: 4px solid #f5a623; border-radius: 8px; padding: 12px 14px; margin-top: 10px; font-size: 15px; }
+  .tip b { color: #b97e0b; }
+  h3 { font-size: 18px; margin: 22px 0 4px; }
+  .hw { background: #fff; border-radius: 14px; padding: 18px 20px; margin-top: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+  .hw h4 { font-size: 17px; margin-bottom: 4px; }
+  .hw h4 span { color: #2f7cf6; }
+  .hw p { font-size: 15px; color: #444; }
+  .hw .say { color: #888; font-size: 14px; margin-top: 4px; }
+  .checklist li { font-size: 15px; margin: 6px 0 6px 18px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 8px; }
+  td, th { border: 1px solid #ddd; padding: 9px 8px; text-align: left; vertical-align: top; }
+  th { background: #f0f7ff; }
+  footer { text-align: center; color: #999; font-size: 13px; padding: 24px 0 12px; }
+  .hide { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>💻 买笔记本小助手</h1>
+    <p>不懂电脑也没关系，回答 10 个问题，告诉你该买什么样的本子</p>
+  </header>
+  <div class="note">📱 在微信里打开也能看：题目都在下面，直接点选就行，选完点最下面的蓝色按钮出推荐。如果按钮点不动，就直接看后面的「快速对照表」。</div>
+
+  <!-- 10 道题：纯静态，微信里也能显示 -->
+  <fieldset class="qcard"><legend><span class="qnum">第 1 题</span>买来主要干什么？</legend>
+    <label class="opt"><input type="radio" name="q-use" value="office">办公、学习、上网、看剧<small>写文档、做表格、看视频</small></label>
+    <label class="opt"><input type="radio" name="q-use" value="design">画画、修图、做设计<small>PS、AI、CAD、做海报</small></label>
+    <label class="opt"><input type="radio" name="q-use" value="game">玩游戏<small>英雄联盟、原神、3A 大作</small></label>
+    <label class="opt"><input type="radio" name="q-use" value="3d">3D 建模、渲染、剪视频<small>Blender、PR、达芬奇</small></label>
+    <label class="opt"><input type="radio" name="q-use" value="ai">本地跑 AI<small>大模型、AI 画图、本地部署</small></label>
+    <label class="opt"><input type="radio" name="q-use" value="mixed">什么都干一点<small>办公为主，偶尔玩玩别的</small></label>
+  </fieldset>
+
+  <fieldset class="qcard"><legend><span class="qnum">第 2 题</span>预算大概多少？</legend>
+    <label class="opt"><input type="radio" name="q-budget" value="low">3000 元以下</label>
+    <label class="opt"><input type="radio" name="q-budget" value="mid">3000 – 5000 元</label>
+    <label class="opt"><input type="radio" name="q-budget" value="high">5000 – 8000 元</label>
+    <label class="opt"><input type="radio" name="q-budget" value="top">8000 元以上</label>
+  </fieldset>
+
+  <fieldset class="qcard"><legend><span class="qnum">第 3 题</span>经常带出门吗？</legend>
+    <label class="opt"><input type="radio" name="q-carry" value="daily">天天背着走<small>要轻、要续航久</small></label>
+    <label class="opt"><input type="radio" name="q-carry" value="some">偶尔带出去</label>
+    <label class="opt"><input type="radio" name="q-carry" value="home">基本放家里 / 办公室不动</label>
+  </fieldset>
+
+  <fieldset class="qcard"><legend><span class="qnum">第 4 题</span>新机还是二手？</legend>
+    <label class="opt"><input type="radio" name="q-cond" value="new">买全新<small>省心，有保修</small></label>
+    <label class="opt"><input type="radio" name="q-cond" value="used">二手也可以<small>同样钱能买到更强的配置</small></label>
+  </fieldset>
+
+  <fieldset class="qcard"><legend><span class="qnum">第 5 题</span>屏幕喜欢多大？</legend>
+    <label class="opt"><input type="radio" name="q-screen" value="small">13–14 寸<small>小巧轻便，好带</small></label>
+    <label class="opt"><input type="radio" name="q-screen" value="mid">15–16 寸<small>大小正好，最多人选</small></label>
+    <label class="opt"><input type="radio" name="q-screen" value="big">17 寸<small>看得爽，但重</small></label>
+  </fieldset>
+
+  <fieldset class="qcard"><legend><span class="qnum">第 6 题</span>平时玩游戏吗？</legend>
+    <label class="opt"><input type="radio" name="q-game" value="no">不玩</label>
+    <label class="opt"><input type="radio" name="q-game" value="light">偶尔玩玩小游戏<small>比如斗地主、消消乐、英雄联盟</small></label>
+    <label class="opt"><input type="radio" name="q-game" value="heavy">经常玩大型游戏<small>比如原神、3A 大作</small></label>
+  </fieldset>
+
+  <fieldset class="qcard"><legend><span class="qnum">第 7 题</span>打算用几年？</legend>
+    <label class="opt"><input type="radio" name="q-years" value="short">两三年，过渡一下</label>
+    <label class="opt"><input type="radio" name="q-years" value="long">四五年，长期用<small>配置要留点余量</small></label>
+  </fieldset>
+
+  <fieldset class="qcard"><legend><span class="qnum">第 8 题</span>有喜欢的牌子吗？</legend>
+    <label class="opt"><input type="radio" name="q-brand" value="any">没要求，哪个实惠买哪个</label>
+    <label class="opt"><input type="radio" name="q-brand" value="lenovo">联想</label>
+    <label class="opt"><input type="radio" name="q-brand" value="hp">惠普</label>
+    <label class="opt"><input type="radio" name="q-brand" value="asus">华硕</label>
+    <label class="opt"><input type="radio" name="q-brand" value="apple">苹果</label>
+  </fieldset>
+
+  <fieldset class="qcard"><legend><span class="qnum">第 9 题</span>平时充电方便吗？</legend>
+    <label class="opt"><input type="radio" name="q-charge" value="easy">随时能插电<small>办公室、家里都有插座</small></label>
+    <label class="opt"><input type="radio" name="q-charge" value="hard">经常在外面，没插座<small>图书馆、教室、路上</small></label>
+  </fieldset>
+
+  <fieldset class="qcard"><legend><span class="qnum">第 10 题</span>有没有特别在意的？（可多选，不选也行）</legend>
+    <label class="opt"><input type="checkbox" name="q-care" value="screen">屏幕要好</label>
+    <label class="opt"><input type="checkbox" name="q-care" value="battery">电池要耐用</label>
+    <label class="opt"><input type="checkbox" name="q-care" value="quiet">安静、不烫手</label>
+  </fieldset>
+
+  <button class="main" onclick="calc()">👉 查看推荐配置</button>
+  <div id="warn"></div>
+
+  <!-- 结果 -->
+  <div class="card result hide" id="result"></div>
+
+  <!-- 静态对照表：不用点按钮也能看 -->
+  <h3>📋 快速对照表（不用点按钮，直接看）</h3>
+  <div class="card"><table>
+    <tr><th>主要用途</th><th>该买什么样的本子</th></tr>
+    <tr><td><b>办公、学习、上网</b></td><td>轻薄本：i5 / R5、16G 内存、512G 固态、不用独显，3000–5000 元就够</td></tr>
+    <tr><td><b>画画、做设计</b></td><td>全能本：i7 / R7、16G（最好 32G）、1T 固态、RTX 4050 / 4060、100% sRGB 高色域屏</td></tr>
+    <tr><td><b>玩游戏、3D、剪视频</b></td><td>高性能本：i7 / i9、32G 内存、1T 固态、RTX 4060 / 4070 独显，5000 元以上</td></tr>
+    <tr><td><b>本地跑 AI</b></td><td>高性能本：重点看显卡显存，越大越好，至少 8G 起步，内存 32G</td></tr>
+    <tr><td><b>预算 3000 以下</b></td><td>只能买轻薄办公本，或者考虑二手，二手同样钱能买高一档</td></tr>
+  </table></div>
+
+  <!-- 硬件科普 -->
+  <h3>📖 硬件名词，一句话讲明白</h3>
+  <div class="hw"><h4>CPU 处理器 <span>＝ 电脑的大脑</span></h4>
+    <p>负责算东西。看两点：牌子（英特尔 i3 / i5 / i7 / i9，AMD R3 / R5 / R7 / R9，数字越大越强）和第几代（比如 i5-13420H 里的 13 就是第 13 代，越新越好）。日常办公 i5 / R5 就够，做设计、剪视频上 i7 / R7。</p>
+    <p class="say">⚠️ 别只看 i7：十年前的 i7，可能还不如今年的 i5。</p></div>
+  <div class="hw"><h4>内存 <span>＝ 电脑的桌面</span></h4>
+    <p>同时开的东西越多，桌面就得越大。8G 是小桌子，开几个软件就挤；16G 正常办公够用；32G 是设计、3D、AI 才需要。买的时候尽量 16G 起步。</p></div>
+  <div class="hw"><h4>硬盘 <span>＝ 电脑的仓库</span></h4>
+    <p>存文件的地方。现在都要<strong>固态硬盘（SSD）</strong>，开机只要几秒；老式的机械硬盘慢得多，别买。容量 512G 起步，照片视频多就上 1T。</p></div>
+  <div class="hw"><h4>显卡 <span>＝ 电脑画画的手</span></h4>
+    <p>分两种：<strong>核显</strong>是集成在 CPU 里的，不用额外花钱，办公、看视频够用；<strong>独立显卡</strong>是单独一块芯片，玩游戏、做 3D、跑 AI 必须有。现在主流是 RTX 4050 / 4060，数字越大越强。跑 AI 还要看显存，越大越好。</p></div>
+  <div class="hw"><h4>屏幕 <span>＝ 每天盯着看的东西</span></h4>
+    <p>分辨率 1080p 起步；做设计要看色域，100% sRGB 颜色才准；玩游戏 144Hz 刷新率更顺滑。</p></div>
+  <div class="hw"><h4>电池和重量 <span>＝ 出门舒不舒服</span></h4>
+    <p>经常带出门：选 1.5kg 以内、续航 8 小时以上的轻薄本。游戏本性能强，但一般 2kg 起步，基本得插着电用。</p></div>
+  <div class="hw"><h4>型号怎么看？举个例子</h4>
+    <p><strong>i5-13420H</strong>：i5 是档次，13 是第 13 代，H 是高性能版（轻薄本多是 U，性能弱一些）。AMD 的 R7-8845H 也是一样的看法。</p></div>
+
+  <!-- 二手清单 -->
+  <h3>🔍 买二手，验机记住这 6 条</h3>
+  <div class="card"><ul class="checklist">
+    <li>查电池健康：让卖家在设置里截图，健康度低于 80% 就砍价或别买</li>
+    <li>屏幕全白、全黑各看一遍，有没有亮点、暗角、漏光</li>
+    <li>键盘每个键按一遍，触摸板、摄像头、Wi-Fi、声音都试一下</li>
+    <li>问清保修还剩多久、是不是原装、有没有修过、进过水</li>
+    <li>别买 5 年以上的老机器，再便宜也别要</li>
+    <li>当面交易，验完机再给钱，别先转账</li>
+  </ul></div>
+
+  <footer>仅供参考，买前再问问懂行的朋友</footer>
+</div>
+
+<script>
+var TIERS = {
+  1: { name: '轻薄办公本', cpu: '英特尔 i5 / AMD R5（12 代以后）', ram: '16GB', ssd: '512GB 固态硬盘', gpu: '核显就够了，不用独显', weight: '1.5kg 以内' },
+  2: { name: '全能本', cpu: '英特尔 i7 / AMD R7', ram: '16GB（做设计建议 32GB）', ssd: '1TB 固态硬盘', gpu: 'RTX 4050 或 4060 独显', weight: '1.8kg 左右' },
+  3: { name: '高性能本', cpu: '英特尔 i7 / i9 或 AMD R7 / R9', ram: '32GB', ssd: '1TB 固态硬盘', gpu: 'RTX 4060 / 4070 独显', weight: '2kg 以上，性能本都重' }
+};
+var USE_TEXT = { office: '办公、学习、上网、看剧', design: '画画、修图、做设计', game: '玩游戏', '3d': '3D 建模、渲染、剪视频', ai: '本地跑 AI', mixed: '什么都干一点' };
+
+function val(name) {
+  var el = document.querySelector('input[name="' + name + '"]:checked');
+  return el ? el.value : null;
+}
+function vals(name) {
+  var list = document.querySelectorAll('input[name="' + name + '"]:checked');
+  var out = [];
+  for (var i = 0; i < list.length; i++) out.push(list[i].value);
+  return out;
+}
+
+function calc() {
+  var warn = document.getElementById('warn');
+  var resultEl = document.getElementById('result');
+  var need = [['q-use', '第 1 题'], ['q-budget', '第 2 题'], ['q-carry', '第 3 题'], ['q-cond', '第 4 题'], ['q-screen', '第 5 题'], ['q-game', '第 6 题'], ['q-years', '第 7 题'], ['q-brand', '第 8 题'], ['q-charge', '第 9 题']];
+  for (var i = 0; i < need.length; i++) {
+    if (!val(need[i][0])) {
+      warn.textContent = '⚠️ ' + need[i][1] + ' 还没选，选完再点按钮';
+      resultEl.classList.add('hide');
+      return;
+    }
+  }
+  warn.textContent = '';
+
+  var use = val('q-use'), budget = val('q-budget'), carry = val('q-carry'), cond = val('q-cond');
+  var screen = val('q-screen'), game = val('q-game'), years = val('q-years'), brand = val('q-brand'), charge = val('q-charge');
+  var care = vals('q-care');
+
+  var tier = 1;
+  if (use === 'design' || use === 'mixed') tier = 2;
+  if (use === 'game' || use === '3d' || use === 'ai') tier = 3;
+  if (game === 'heavy' && tier < 2) tier = 2;
+  if (budget === 'low') tier = Math.min(tier, 1);
+  if (budget === 'mid') tier = Math.min(tier, 2);
+  if (budget === 'top' && tier < 3 && use !== 'office') tier = 3;
+  if (cond === 'used' && tier < 3) tier = tier + 1;
+
+  var t = TIERS[tier];
+  var budgetText = { low: '3000 元以下', mid: '3000 – 5000 元', high: '5000 – 8000 元', top: '8000 元以上' }[budget];
+  var sizeText = { small: '13–14 寸', mid: '15–16 寸', big: '17 寸' }[screen];
+  var specText = tier === 1 ? '1080p' : tier === 2 ? '2K、100% sRGB 高色域' : '2K 高刷新率';
+  var brandText = { any: '', lenovo: '联想', hp: '惠普', asus: '华硕', apple: '苹果' }[brand];
+
+  var html = '<h2>✅ 推荐结果</h2>'
+    + '<p>用途：' + USE_TEXT[use] + ' · 预算：' + budgetText + ' · 屏幕：' + sizeText + ' · ' + (years === 'long' ? '打算用四五年' : '用两三年过渡') + ' · ' + (cond === 'used' ? '接受二手' : '买全新') + '</p>'
+    + '<div class="rec"><div style="font-size:17px;font-weight:bold;margin-bottom:6px">你适合一台「' + t.name + '」</div>'
+    + '<div class="line"><span class="k">CPU</span><span>' + t.cpu + '</span></div>'
+    + '<div class="line"><span class="k">内存</span><span>' + t.ram + '</span></div>'
+    + '<div class="line"><span class="k">硬盘</span><span>' + t.ssd + '</span></div>'
+    + '<div class="line"><span class="k">显卡</span><span>' + t.gpu + '</span></div>'
+    + '<div class="line"><span class="k">屏幕</span><span>' + sizeText + '、' + specText + '</span></div>'
+    + '<div class="line"><span class="k">重量</span><span>' + t.weight + '</span></div></div>';
+
+  var tips = [];
+  tips.push('<b>内存 16G 起步</b>，别买 8G 的，用两年就卡。');
+  tips.push('<b>硬盘一定是固态（SSD）</b>，别买机械硬盘的机器。');
+  tips.push('<b>别只看 i7 / i9</b>，要看第几代，新一代的 i5 比老 i7 还快。');
+  if (screen === 'big' && carry === 'daily') tips.push('17 寸看着爽，但天天背会很累，<b>建议再想想 15 寸</b>。');
+  if (years === 'long') tips.push('打算用四五年，配置<b>留点余量</b>，别买刚好够用的，用两年就跟不上了。');
+  if (years === 'long' && cond === 'used') tips.push('长期用的话，<b>二手要慎重</b>，电池和寿命都打了折扣，买新更保险。');
+  if (brand === 'apple') tips.push('苹果本子做工、屏幕都很好，办公设计很合适，<b>但玩不了大型游戏，做不了 3D</b>，而且贵。');
+  else if (brandText) tips.push('你偏好' + brandText + '，<b>优先看这个牌子</b>的同配置机型，售后也方便。');
+  if (charge === 'hard') tips.push('经常没地方充电，<b>续航优先</b>，选轻薄本，游戏本就别考虑了。');
+  if (use === 'design') tips.push('做设计重点看屏幕：<b>100% sRGB 色域</b>，颜色才准。');
+  if (use === 'ai') tips.push('跑 AI 重点看显卡：<b>显存越大越好</b>，至少 8G 起步。');
+  if (use === 'game' || use === '3d') tips.push('游戏和 3D 很吃散热，买之前搜一下这台机器的散热口碑。');
+  if (carry === 'daily') tips.push('天天背着走，<b>重量比性能重要</b>，1.5kg 以内才舒服。');
+  if (carry === 'daily' && tier === 3) tips.push('性能和轻便很难兼得，实在要带出门可以看看 14 寸的性能本，或者接受它重一点。');
+  if (care.indexOf('screen') >= 0) tips.push('你在意屏幕：到手先看亮度够不够、颜色正不正。');
+  if (care.indexOf('battery') >= 0) tips.push('你在意续航：轻薄本看官方续航，游戏本插电用，续航就别指望了。');
+  if (cond === 'used') tips.push('<b>二手重点</b>：按下面那份验机清单逐项检查，当面交易，验完再给钱。');
+  if (budget === 'low' && tier > 1) tips.push('预算有限又想要性能，二手是个好选择，同样的钱能买到高一档的配置。');
+
+  for (var j = 0; j < tips.length; j++) html += '<div class="tip">💡 ' + tips[j] + '</div>';
+  html += '<button class="ghost" onclick="window.scrollTo(0,0)">回到上面改答案</button>';
+  resultEl.innerHTML = html;
+  resultEl.classList.remove('hide');
+  resultEl.scrollIntoView();
+}
+</script>
+</body>
+</html>
