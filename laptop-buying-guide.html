@@ -33,6 +33,11 @@
   .rec .k { min-width: 64px; font-weight: bold; color: #2f7cf6; flex-shrink: 0; }
   .tip { background: #fff8e6; border-left: 4px solid #f5a623; border-radius: 8px; padding: 12px 14px; margin-top: 10px; font-size: 15px; }
   .tip b { color: #b97e0b; }
+  .buy { background: #f9fbff; border: 1px solid #e3edff; border-radius: 12px; padding: 12px 14px; margin-top: 10px; font-size: 15px; }
+  .buy a { display: inline-block; padding: 5px 12px; margin: 8px 6px 0 0; border-radius: 20px; border: 1px solid; text-decoration: none; font-size: 14px; }
+  .buy a.jd { border-color: #e1251b; color: #e1251b; }
+  .buy a.tb { border-color: #ff5000; color: #ff5000; }
+  .buy a.pdd { border-color: #e02e24; color: #e02e24; }
   h3 { font-size: 18px; margin: 22px 0 4px; }
   .hw { background: #fff; border-radius: 14px; padding: 18px 20px; margin-top: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
   .hw h4 { font-size: 17px; margin-bottom: 4px; }
@@ -167,6 +172,42 @@ var TIERS = {
   3: { name: '高性能本', cpu: '英特尔 i7 / i9 或 AMD R7 / R9', ram: '32GB', ssd: '1TB 固态硬盘', gpu: 'RTX 4060 / 4070 独显', weight: '2kg 以上，性能本都重' }
 };
 var USE_TEXT = { office: '办公、学习', design: '画画、做设计', game: '玩游戏', '3d': '3D、剪视频', ai: '本地跑 AI', mixed: '什么都干一点' };
+var MODELS = {
+  1: [
+    { name: '联想小新14', brand: 'lenovo' },
+    { name: '惠普战66', brand: 'hp' },
+    { name: '华硕无畏14', brand: 'asus' },
+    { name: '小米 RedmiBook 14', brand: 'xiaomi' },
+    { name: '机械革命无界14X', brand: 'other' }
+  ],
+  2: [
+    { name: '联想小新Pro 14', brand: 'lenovo' },
+    { name: '惠普暗影精灵10', brand: 'hp' },
+    { name: '华硕天选5', brand: 'asus' },
+    { name: '小米 RedmiBook Pro 14', brand: 'xiaomi' },
+    { name: '机械革命旷世16', brand: 'other' }
+  ],
+  3: [
+    { name: '联想拯救者Y7000P', brand: 'lenovo' },
+    { name: '惠普暗影精灵10', brand: 'hp' },
+    { name: '华硕天选5 Pro', brand: 'asus' },
+    { name: '机械革命旷世16 Pro', brand: 'other' }
+  ]
+};
+var APPLE_MODELS = [
+  { name: 'MacBook Air M4', brand: 'apple' },
+  { name: 'MacBook Pro 14', brand: 'apple' }
+];
+function pickModels(tier, brand) {
+  if (brand === 'apple') return APPLE_MODELS.slice();
+  var list = MODELS[tier];
+  var picked = [];
+  if (brand && brand !== 'any') {
+    list.forEach(function(m) { if (m.brand === brand) picked.push(m); });
+  }
+  list.forEach(function(m) { if (picked.indexOf(m) < 0) picked.push(m); });
+  return picked.slice(0, 3);
+}
 
 var step = 0, answers = {};
 var quizEl = document.getElementById('quiz');
@@ -248,6 +289,18 @@ function showResult() {
     + '<div class="line"><span class="k">显卡</span><span>' + t.gpu + '</span></div>'
     + '<div class="line"><span class="k">屏幕</span><span>' + sizeText + '、' + specText + '</span></div>'
     + '<div class="line"><span class="k">重量</span><span>' + t.weight + '</span></div></div>';
+
+  var models = pickModels(tier, brand);
+  var buyHtml = '<h3 style="margin-top:18px">🛒 照着买（点进去就是这个型号的搜索结果）</h3>';
+  models.forEach(function(m) {
+    var kw = encodeURIComponent(m.name);
+    buyHtml += '<div class="buy"><b>' + m.name + '</b><br>'
+      + '<a class="jd" target="_blank" href="https://search.jd.com/Search?keyword=' + kw + '&enc=utf-8">京东搜一下</a>'
+      + '<a class="tb" target="_blank" href="https://s.taobao.com/search?q=' + kw + '">淘宝搜一下</a>'
+      + '<a class="pdd" target="_blank" href="https://mobile.pinduoduo.com/search_result.html?search_key=' + kw + '">拼多多搜一下</a></div>';
+  });
+  buyHtml += '<p style="font-size:13px;color:#888;margin-top:8px">链接是按型号搜的，点进去能看到最新价格和店铺；价格天天变，以点进去看到的为准。下单前看一眼销量和评价，优先官方旗舰店。</p>';
+  html += buyHtml;
 
   var tips = [];
   tips.push('<b>内存 16G 起步</b>，别买 8G 的，用两年就卡。');
