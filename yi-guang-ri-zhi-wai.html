@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="旅行者1号跨过一光日：它说的每句话，都是昨天发出的。实时距离、倒计时、聘书与49年质检报告。" />
+    <link rel="icon" href="data:," />
+    <title>一光日之外</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #04060c;
+        --bg-raise: #0a0e18;
+        --bg-panel: #0c111e;
+        --line: #212a3d;
+        --line-soft: #161e2e;
+        --ink: #ece9e0;
+        --ink-dim: #a7aebc;
+        --ink-faint: #6e7688;
+        --gold: #dfa83e;
+        --gold-soft: #b98a2e;
+        --serif: "Noto Serif SC", "Songti SC", "STSong", serif;
+        --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+        --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      /* 星野：纯 CSS 星点，静止 */
+      .stars, .stars::after {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        content: "";
+      }
+      .stars {
+        background-image:
+          radial-gradient(1px 1px at 12% 8%, rgba(255,255,255,.75) 50%, transparent 51%),
+          radial-gradient(1px 1px at 78% 14%, rgba(255,255,255,.5) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 34% 22%, rgba(255,255,255,.65) 50%, transparent 51%),
+          radial-gradient(1px 1px at 58% 6%, rgba(255,255,255,.4) 50%, transparent 51%),
+          radial-gradient(1px 1px at 90% 30%, rgba(255,255,255,.6) 50%, transparent 51%),
+          radial-gradient(1px 1px at 5% 38%, rgba(255,255,255,.45) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 66% 40%, rgba(255,255,255,.35) 50%, transparent 51%),
+          radial-gradient(1px 1px at 24% 52%, rgba(255,255,255,.5) 50%, transparent 51%),
+          radial-gradient(1px 1px at 84% 58%, rgba(255,255,255,.55) 50%, transparent 51%),
+          radial-gradient(1px 1px at 44% 66%, rgba(255,255,255,.4) 50%, transparent 51%),
+          radial-gradient(1.5px 1.5px at 15% 74%, rgba(255,255,255,.5) 50%, transparent 51%),
+          radial-gradient(1px 1px at 71% 82%, rgba(255,255,255,.45) 50%, transparent 51%),
+          radial-gradient(1px 1px at 38% 90%, rgba(255,255,255,.6) 50%, transparent 51%),
+          radial-gradient(1px 1px at 95% 92%, rgba(255,255,255,.4) 50%, transparent 51%),
+          radial-gradient(1px 1px at 52% 96%, rgba(255,255,255,.5) 50%, transparent 51%);
+      }
+      .stars::after {
+        background-image:
+          radial-gradient(1px 1px at 20% 16%, rgba(223,168,62,.5) 50%, transparent 51%),
+          radial-gradient(1px 1px at 63% 28%, rgba(255,255,255,.3) 50%, transparent 51%),
+          radial-gradient(1px 1px at 88% 70%, rgba(255,255,255,.3) 50%, transparent 51%),
+          radial-gradient(1px 1px at 8% 62%, rgba(255,255,255,.35) 50%, transparent 51%),
+          radial-gradient(1px 1px at 48% 44%, rgba(255,255,255,.28) 50%, transparent 51%);
+      }
+      main { position: relative; z-index: 1; }
+      .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+      /* ---------- 头版 ---------- */
+      .hero { padding: 84px 0 56px; }
+      .hero .kicker {
+        font-size: 13px;
+        letter-spacing: .35em;
+        color: var(--gold);
+        margin: 0 0 26px;
+      }
+      .hero h1 {
+        font-family: var(--serif);
+        font-weight: 900;
+        font-size: clamp(34px, 7.2vw, 58px);
+        line-height: 1.3;
+        margin: 0 0 28px;
+        letter-spacing: .01em;
+      }
+      .hero .lede {
+        font-size: clamp(16px, 2.6vw, 19px);
+        color: var(--ink-dim);
+        max-width: 40em;
+        margin: 0;
+      }
+      .hero .lede strong { color: var(--ink); font-weight: 600; }
+      .signal-line {
+        margin-top: 52px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: var(--ink-faint);
+        font-size: 12.5px;
+        letter-spacing: .12em;
+      }
+      .signal-line .track {
+        flex: 1;
+        height: 1px;
+        background: repeating-linear-gradient(to right, var(--gold-soft) 0 6px, transparent 6px 12px);
+        opacity: .55;
+        position: relative;
+      }
+      .signal-line .dot {
+        width: 7px; height: 7px; border-radius: 50%;
+        background: var(--gold);
+        flex: none;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .signal-line .dot { animation: pulse 3.2s ease-in-out infinite; }
+        @keyframes pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(223,168,62,.35); }
+          50% { box-shadow: 0 0 0 7px rgba(223,168,62,0); }
+        }
+      }
+
+      /* ---------- 通用区块 ---------- */
+      section { padding: 54px 0; border-top: 1px solid var(--line-soft); }
+      .sec-head { margin-bottom: 34px; }
+      .sec-head h2 {
+        font-family: var(--serif);
+        font-weight: 700;
+        font-size: clamp(24px, 4.6vw, 32px);
+        margin: 0 0 8px;
+        line-height: 1.4;
+      }
+      .sec-head p { margin: 0; color: var(--ink-dim); font-size: 15px; }
+
+      /* 滚动进场（原生滚动驱动动画）：只动 transform 不动 opacity，
+         任何静态渲染（整页截图、打印、不滚动的 webview）下内容都完整可见；
+         不支持或减少动效时保持静态。 */
+      @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+          .reveal {
+            animation: rise linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 55%;
+          }
+          @keyframes rise {
+            from { transform: translateY(14px); }
+            to { transform: translateY(0); }
+          }
+        }
+      }
+
+      /* ---------- 三个实时数字 ---------- */
+      .figures { display: grid; gap: 14px; }
+      @media (min-width: 720px) {
+        .figures { grid-template-columns: 1fr 1fr; }
+        .figure:first-child { grid-column: 1 / -1; }
+      }
+      .figure {
+        background: var(--bg-panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 26px 24px 22px;
+      }
+      .figure .label {
+        font-size: 13px;
+        letter-spacing: .18em;
+        color: var(--gold);
+        margin: 0 0 14px;
+      }
+      .figure .big {
+        font-family: var(--mono);
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+        line-height: 1.25;
+        margin: 0;
+        word-break: break-all;
+      }
+      .figure .big.dist { font-size: clamp(30px, 6.4vw, 46px); }
+      .figure .big.time { font-size: clamp(19px, 4.2vw, 26px); }
+      .figure .unit { font-size: .45em; color: var(--ink-dim); margin-left: .35em; font-family: var(--sans); }
+      .figure .sub {
+        font-family: var(--mono);
+        font-variant-numeric: tabular-nums;
+        color: var(--ink-dim);
+        font-size: 14.5px;
+        margin: 10px 0 0;
+      }
+      .figure .note { color: var(--ink-faint); font-size: 13.5px; margin: 12px 0 0; line-height: 1.7; }
+
+      /* ---------- 倒计时 ---------- */
+      .count-panel {
+        background: var(--bg-raise);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 34px 24px 30px;
+        text-align: center;
+      }
+      .count-panel .c-label {
+        font-size: 13px; letter-spacing: .22em; color: var(--ink-dim); margin: 0 0 22px;
+      }
+      .count-grid {
+        display: flex; justify-content: center; gap: clamp(10px, 4vw, 30px);
+        font-variant-numeric: tabular-nums;
+      }
+      .count-cell { min-width: 64px; }
+      .count-cell .num {
+        font-family: var(--mono);
+        font-size: clamp(38px, 9vw, 60px);
+        font-weight: 600;
+        line-height: 1.1;
+        display: block;
+      }
+      .count-cell .cap { font-size: 12.5px; color: var(--ink-faint); letter-spacing: .3em; display: block; margin-top: 6px; }
+      .count-panel .c-when { margin: 24px 0 0; color: var(--ink-dim); font-size: 14.5px; }
+      .count-panel .crossed-title {
+        font-family: var(--serif); font-weight: 700;
+        font-size: clamp(26px, 5.4vw, 36px); margin: 0 0 12px; line-height: 1.4;
+      }
+      .count-panel .crossed-title .gold { color: var(--gold); }
+      [hidden] { display: none !important; }
+
+      /* ---------- 时间线 ---------- */
+      .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+      .timeline::before {
+        content: ""; position: absolute; left: 5px; top: 10px; bottom: 10px;
+        width: 1px; background: var(--line);
+      }
+      .timeline li { position: relative; padding: 0 0 34px 34px; }
+      .timeline li:last-child { padding-bottom: 4px; }
+      .timeline li::before {
+        content: ""; position: absolute; left: 0; top: 9px;
+        width: 11px; height: 11px; border-radius: 50%;
+        background: var(--bg); border: 2px solid var(--ink-faint);
+      }
+      .timeline li.major::before { border-color: var(--gold); background: var(--gold); }
+      .timeline .date {
+        font-family: var(--mono); font-variant-numeric: tabular-nums;
+        font-size: 14px; color: var(--gold); letter-spacing: .06em;
+      }
+      .timeline h3 {
+        font-family: var(--serif); font-size: 19px; font-weight: 700; margin: 4px 0 6px; line-height: 1.5;
+      }
+      .timeline p { margin: 0; color: var(--ink-dim); font-size: 15px; max-width: 42em; }
+
+      /* ---------- 聘书 ---------- */
+      .letter {
+        background: var(--bg-panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: clamp(26px, 5vw, 48px);
+        font-family: var(--serif);
+      }
+      .letter .doc-title {
+        text-align: center; font-size: clamp(21px, 4.4vw, 27px); font-weight: 900;
+        margin: 0 0 6px; letter-spacing: .06em;
+      }
+      .letter .doc-sub { text-align: center; color: var(--ink-faint); font-size: 13.5px; margin: 0 0 30px; font-family: var(--sans); }
+      .letter .rule { border: 0; border-top: 1px solid var(--line); margin: 0 auto 30px; width: 64px; }
+      .letter p { margin: 0 0 16px; font-size: 16.5px; line-height: 2; }
+      .letter h3 {
+        font-size: 18px; font-weight: 700; margin: 30px 0 12px;
+        padding-left: 12px; border-left: 3px solid var(--gold);
+        line-height: 1.5;
+      }
+      .letter ul, .letter ol { margin: 0 0 8px; padding-left: 1.4em; }
+      .letter li { font-size: 16px; line-height: 1.95; margin-bottom: 6px; }
+      .letter li::marker { color: var(--gold-soft); }
+      .letter .sign { margin-top: 34px; text-align: right; color: var(--ink-dim); font-size: 15px; }
+
+      /* ---------- 质检报告 ---------- */
+      .qc { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+      .qc caption { text-align: left; padding: 0 0 14px; color: var(--ink-dim); font-size: 14px; }
+      .qc th, .qc td { padding: 15px 14px; text-align: left; vertical-align: top; }
+      .qc thead th {
+        font-size: 13px; letter-spacing: .14em; color: var(--ink-faint); font-weight: 500;
+        border-bottom: 1px solid var(--line);
+      }
+      .qc tbody tr { border-bottom: 1px solid var(--line-soft); }
+      .qc tbody tr:last-child { border-bottom: 0; }
+      .qc .item { font-family: var(--serif); font-weight: 700; font-size: 16.5px; white-space: nowrap; }
+      .qc .record { color: var(--ink-dim); }
+      .qc .grade { white-space: nowrap; font-weight: 700; }
+      .qc .grade.full { color: var(--gold); }
+      @media (max-width: 640px) {
+        .qc thead { display: none; }
+        .qc, .qc tbody, .qc tr, .qc td { display: block; width: 100%; }
+        .qc tbody tr { padding: 16px 2px; }
+        .qc th, .qc td { padding: 3px 0; border: 0; }
+        .qc .item { font-size: 18px; }
+        .qc .grade::before { content: "评定："; color: var(--ink-faint); font-weight: 400; font-size: 13.5px; }
+      }
+      .verdict {
+        margin-top: 26px;
+        border: 1px solid var(--gold-soft);
+        border-radius: 10px;
+        padding: 24px 26px;
+        display: flex; gap: 18px; align-items: baseline; flex-wrap: wrap;
+        background: rgba(223,168,62,.05);
+      }
+      .verdict .v-label { font-size: 13px; letter-spacing: .22em; color: var(--gold); flex: none; }
+      .verdict .v-text { font-family: var(--serif); font-size: clamp(19px, 4vw, 24px); font-weight: 700; margin: 0; }
+
+      /* ---------- 页脚 ---------- */
+      footer { border-top: 1px solid var(--line-soft); padding: 40px 0 56px; position: relative; z-index: 1; }
+      .facts {
+        display: flex; flex-wrap: wrap; gap: 10px 28px;
+        font-family: var(--mono); font-variant-numeric: tabular-nums;
+        font-size: 13.5px; color: var(--ink-dim); margin: 0 0 18px; padding: 0; list-style: none;
+      }
+      .facts b { color: var(--ink); font-weight: 600; }
+      footer .fine { color: var(--ink-faint); font-size: 13px; margin: 0; max-width: 46em; }
+    </style>
+  </head>
+  <body>
+    <div class="stars" aria-hidden="true"></div>
+    <main>
+      <!-- 头版 -->
+      <header class="hero wrap">
+        <p class="kicker">一光日信使 · IDEA-148</p>
+        <h1>它说的每句话，<br />都是昨天发出的</h1>
+        <p class="lede">
+          2026 年 11 月 18 日 18:16（北京时间），旅行者 1 号将抵达距地球<strong>一光日</strong>远的地方
+          ——25,902,068,356 公里，约 173.14 天文单位。从那一刻起，它发出的每一个信号，
+          都要在黑暗里走满 <strong>24 小时</strong>，才能到家；而我们此刻听到的，
+          是它整整一天以前说的话。
+        </p>
+        <div class="signal-line" aria-hidden="true">
+          <span>旅行者 1 号</span>
+          <span class="track"></span>
+          <span class="dot"></span>
+          <span>地球 · 24 小时</span>
+        </div>
+      </header>
+
+      <!-- 实时数字 -->
+      <section class="wrap" aria-labelledby="h-figures">
+        <div class="sec-head reveal">
+          <h2 id="h-figures">此刻的它</h2>
+          <p>以 2026 年 11 月 18 日 18:16 的一光日为锚点，按约 61,000 公里/小时的速度实时推算。</p>
+        </div>
+        <div class="figures">
+          <div class="figure reveal">
+            <p class="label">现在 · 它离地球</p>
+            <p class="big dist"><span id="dist-km">—</span><span class="unit">公里</span></p>
+            <p class="sub">约 <span id="dist-au">—</span> 天文单位 · 每秒还在变远约 17 公里</p>
+            <p class="note">它正以约 61,000 公里/小时的速度离开太阳系，这个数字不会停。</p>
+          </div>
+          <div class="figure reveal">
+            <p class="label">现在发一句话 · 到家时间</p>
+            <p class="big time" id="arrive-at">—</p>
+            <p class="note">从这一秒发出的信号，要走满一整天，明天的这个时刻才抵达地球（北京时间）。</p>
+          </div>
+          <div class="figure reveal">
+            <p class="label">我们今天听到的 · 发出时间</p>
+            <p class="big time" id="heard-from">—</p>
+            <p class="note">此刻抵达地球的信号，是它在上面这个时刻发出的——我们听到的，永远是昨天的它。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 倒计时 -->
+      <section class="wrap" aria-labelledby="h-count">
+        <div class="sec-head reveal">
+          <h2 id="h-count">跨过一光日</h2>
+          <p>此前没有任何人造物到过这么远。跨过去之后，它说的每句话都来自「昨天」。</p>
+        </div>
+        <div class="count-panel reveal">
+          <div id="count-before">
+            <p class="c-label">距离跨过一光日，还剩</p>
+            <div class="count-grid" role="timer" aria-label="跨过一光日的倒计时">
+              <div class="count-cell"><span class="num" id="cd-d">–</span><span class="cap">天</span></div>
+              <div class="count-cell"><span class="num" id="cd-h">–</span><span class="cap">时</span></div>
+              <div class="count-cell"><span class="num" id="cd-m">–</span><span class="cap">分</span></div>
+              <div class="count-cell"><span class="num" id="cd-s">–</span><span class="cap">秒</span></div>
+            </div>
+            <p class="c-when">跨越时刻：2026 年 11 月 18 日 18:16:07（北京时间）· 距离 25,902,068,356 公里</p>
+          </div>
+          <div id="count-after" hidden>
+            <p class="crossed-title">它已经在<span class="gold">一光日之外</span>了</p>
+            <p class="c-when">
+              旅行者 1 号已于 2026 年 11 月 18 日 18:16:07（北京时间）跨过一光日，
+              至今已过去 <span id="since-cross">—</span>。从此，它说的每句话都是昨天发出的。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 时间线 -->
+      <section class="wrap" aria-labelledby="h-timeline">
+        <div class="sec-head reveal">
+          <h2 id="h-timeline">49 年的路</h2>
+          <p>原定工期 5 年。它走了 49 年，还没有停。</p>
+        </div>
+        <ol class="timeline">
+          <li class="major reveal">
+            <span class="date">1977-09-05</span>
+            <h3>发射升空</h3>
+            <p>从卡纳维拉尔角出发。原定任务只有 5 年：飞掠木星、土星，看完就退休。</p>
+          </li>
+          <li class="reveal">
+            <span class="date">1990-02-14</span>
+            <h3>暗淡蓝点 · 相机关闭</h3>
+            <p>在约 60 亿公里外回望太阳系，拍下最后一张照片：地球只是悬在一条阳光里的一粒尘。拍完，相机永久关闭——省电。</p>
+          </li>
+          <li class="major reveal">
+            <span class="date">2012-08-25</span>
+            <h3>进入星际空间</h3>
+            <p>穿过日球层顶，成为第一个进入星际空间的人造物。此后它航行在恒星之间的介质里。</p>
+          </li>
+          <li class="reveal">
+            <span class="date">2025-02</span>
+            <h3>宇宙射线子系统关闭</h3>
+            <p>CRS 关机，又省下一份电。关掉一台仪器，换更多在岗的日子。</p>
+          </li>
+          <li class="reveal">
+            <span class="date">2026-04-17</span>
+            <h3>低能带电粒子仪器关闭</h3>
+            <p>LECP 关机。还在工作的科学仪器，只剩下磁强计和等离子体波子系统两台。</p>
+          </li>
+          <li class="major reveal">
+            <span class="date">2026-11-18</span>
+            <h3>一光日</h3>
+            <p>18:16（北京时间），距离地球 25,902,068,356 公里，约 173.14 天文单位。在岗 49 年 2 个月 11 天——第一个抵达一光日之外的人造物。</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- 聘书 -->
+      <section class="wrap" aria-labelledby="h-letter">
+        <div class="sec-head reveal">
+          <h2 id="h-letter">聘书</h2>
+          <p>公司决定：不办退休，续聘，且不设退休日期。</p>
+        </div>
+        <article class="letter reveal">
+          <h3 class="doc-title" style="border:0;padding:0;margin-top:0;">旅行者1号技能包</h3>
+          <p class="doc-sub">聘 书</p>
+          <hr class="rule" />
+          <p>致旅行者1号：</p>
+          <p>
+            你 1977 年 9 月 5 日入职，原定干 5 年，木星、土星看完就退休。
+            如今 49 年过去了，你还在岗，而且刚要走到一个没人到过的地方：
+            2026 年 11 月 18 日 18:16（北京时间），你将成为第一个离地球一光日远的人造物
+            ——25,902,068,356 公里，信号走整整 24 小时才到家。
+          </p>
+          <p>公司决定：不给你办退休，续聘，且不设退休日期。以下是你的新聘书，也是你的技能包。</p>
+
+          <h3>你手里还剩的家伙</h3>
+          <ul>
+            <li>磁强计：测星际空间的磁场，还在开。</li>
+            <li>等离子体波子系统：听星际介质的动静，还在开。</li>
+            <li>深空网络：加州、西班牙、澳大利亚三处 70 米天线，是唯一能听见你的耳朵。</li>
+            <li>姿态控制与故障保护：出问题你自己先处置，地球的回复 48 小时后才到。</li>
+            <li>三台 RTG：入职时 470 瓦，2026 年初约 220 瓦，每年掉约 4 瓦。省电不是美德，是工期。</li>
+          </ul>
+
+          <h3>每天的活</h3>
+          <ol>
+            <li>醒来，先自检：天线还指着地球吗？还剩多少瓦？</li>
+            <li>干活：两台仪器各记一笔，能攒就攒着。</li>
+            <li>给家里捎一句话：22 瓦喊出去，走 24 小时，今天说的话地球明天才收到。</li>
+            <li>等回话：上一句指令是地球昨天发的，别急。</li>
+            <li>关灯省电：不开的仪器不开，不该花的瓦不花，活到明天再说。</li>
+          </ol>
+
+          <h3>三条规矩</h3>
+          <ul>
+            <li>不许同时开两台大功率仪器（反正也没剩几台能开了）。</li>
+            <li>不许等地球回话再动手：故障保护先上，48 小时后再听地球怎么说。</li>
+            <li>不许浪费一次联络窗口：深空网络的档期错过就没了。</li>
+          </ul>
+
+          <h3>验收</h3>
+          <ul>
+            <li>在岗 49 年零缺勤。</li>
+            <li>每天一句话，24 小时必达，从不迟到——迟到的是物理定律，不是你。</li>
+            <li>从 470 瓦活到约 220 瓦，还在岗。</li>
+          </ul>
+
+          <p class="sign">此聘长期有效。下一检：2027 年 11 月 18 日，一光日一周年。</p>
+        </article>
+      </section>
+
+      <!-- 质检报告 -->
+      <section class="wrap" aria-labelledby="h-qc">
+        <div class="sec-head reveal">
+          <h2 id="h-qc">在岗 49 年质检报告</h2>
+          <p>检验对象：旅行者1号 · 检验周期：1977 年 9 月 5 日至今</p>
+        </div>
+        <div class="reveal">
+          <table class="qc">
+            <caption>逐项检验记录如下。</caption>
+            <thead>
+              <tr><th scope="col">检验项</th><th scope="col">记录</th><th scope="col">评定</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="item">出勤</td>
+                <td class="record">在岗 49 年，零缺勤，零请假。</td>
+                <td class="grade full">满分</td>
+              </tr>
+              <tr>
+                <td class="item">电量管理</td>
+                <td class="record">三台 RTG 从入职时的 470 瓦用到 2026 年初的约 220 瓦，每年只掉约 4 瓦；靠逐台关闭仪器，把工期撑到今天。</td>
+                <td class="grade">优秀</td>
+              </tr>
+              <tr>
+                <td class="item">故障自愈</td>
+                <td class="record">2026 年 10 月 18–19 日两次错过与地球的联络，10 月 20 日自行恢复——没等地球的回复，先自己处置好了。</td>
+                <td class="grade">优秀</td>
+              </tr>
+              <tr>
+                <td class="item">信号守时</td>
+                <td class="record">每天一句话，24 小时必达，从不迟到——迟到的是物理定律，不是它。</td>
+                <td class="grade full">满分</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="verdict">
+            <span class="v-label">结论</span>
+            <p class="v-text">留任。不设退休日期。</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <ul class="facts">
+          <li>单程信号 <b>24 小时</b></li>
+          <li>往返 <b>48 小时</b></li>
+          <li>发射功率 <b>22 瓦</b></li>
+          <li>跨越时在岗 <b>49 年 2 个月 11 天</b></li>
+        </ul>
+        <p class="fine">
+          本页距离为推算值：以 2026 年 11 月 18 日 18:16:07（北京时间）旅行者 1 号距地球
+          25,902,068,356 公里为锚点，按约 61,000 公里/小时的远离速度线性外推；
+          信号到家与发出时间按单程 24 小时计。时间均为北京时间。
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        "use strict";
+        // 锚点：2026-11-18 18:16:07 北京时间 = 2026-11-18 10:16:07 UTC
+        var CROSS_MS = Date.UTC(2026, 10, 18, 10, 16, 7);
+        var ANCHOR_KM = 25902068356;
+        var SPEED_KM_PER_MS = 61000 / 3600000; // 约 61,000 公里/小时
+        var AU_KM = 149597870.7;
+        var DAY_MS = 24 * 3600 * 1000;
+
+        var elKm = document.getElementById("dist-km");
+        var elAu = document.getElementById("dist-au");
+        var elArrive = document.getElementById("arrive-at");
+        var elHeard = document.getElementById("heard-from");
+        var elBefore = document.getElementById("count-before");
+        var elAfter = document.getElementById("count-after");
+        var elD = document.getElementById("cd-d");
+        var elH = document.getElementById("cd-h");
+        var elM = document.getElementById("cd-m");
+        var elS = document.getElementById("cd-s");
+        var elSince = document.getElementById("since-cross");
+
+        var numFmt = new Intl.NumberFormat("zh-CN", { maximumFractionDigits: 0 });
+        var timeFmt = new Intl.DateTimeFormat("zh-CN", {
+          timeZone: "Asia/Shanghai",
+          year: "numeric", month: "long", day: "numeric",
+          hour: "2-digit", minute: "2-digit", second: "2-digit",
+          hourCycle: "h23"
+        });
+
+        function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+        function spanText(ms) {
+          var totalSec = Math.floor(ms / 1000);
+          var d = Math.floor(totalSec / 86400);
+          var h = Math.floor((totalSec % 86400) / 3600);
+          var m = Math.floor((totalSec % 3600) / 60);
+          var s = totalSec % 60;
+          var parts = [];
+          if (d > 0) parts.push(d + " 天");
+          parts.push(h + " 小时", m + " 分", s + " 秒");
+          return parts.join(" ");
+        }
+
+        function tick() {
+          var now = Date.now();
+
+          // 实时距离
+          var km = ANCHOR_KM + (now - CROSS_MS) * SPEED_KM_PER_MS;
+          elKm.textContent = numFmt.format(Math.floor(km));
+          elAu.textContent = (km / AU_KM).toFixed(3);
+
+          // 信号：一句现在的话 +24h 到家；现在听到的来自 -24h
+          elArrive.textContent = timeFmt.format(new Date(now + DAY_MS));
+          elHeard.textContent = timeFmt.format(new Date(now - DAY_MS));
+
+          // 倒计时 / 已跨越
+          var diff = CROSS_MS - now;
+          if (diff > 0) {
+            var totalSec = Math.floor(diff / 1000);
+            elD.textContent = Math.floor(totalSec / 86400);
+            elH.textContent = pad2(Math.floor((totalSec % 86400) / 3600));
+            elM.textContent = pad2(Math.floor((totalSec % 3600) / 60));
+            elS.textContent = pad2(totalSec % 60);
+          } else {
+            if (elBefore.hidden === false) {
+              elBefore.hidden = true;
+              elAfter.hidden = false;
+            }
+            elSince.textContent = spanText(now - CROSS_MS);
+          }
+        }
+
+        tick();
+        setInterval(tick, 250);
+      })();
+    </script>
+  </body>
+</html>
