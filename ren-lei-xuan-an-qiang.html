@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>人类悬案墙 · 银色实验室</title>
+<meta name="description" content="每周钉一件人类还没解开的难题，每件配一张验洞卡：历史上谁宣称解开了它、洞出在哪。">
+<style>
+  :root{--bg:#07090c;--panel:rgba(255,255,255,.032);--ink:#e9eef3;--ink2:#9aa7b4;--ink3:#5f6d7a;--line:rgba(255,255,255,.09);--cyan:#67e8f9;--amber:#e8b34b;--green:#34d399}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Serif SC","Songti SC","STSong",serif;line-height:1.85}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 20px 80px}
+  a{color:var(--cyan)}
+  h1{font-size:30px;letter-spacing:.12em;margin:0 0 6px}
+  .sub{color:var(--ink2);font-size:14px;margin:0 0 28px;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .how{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:14px;color:var(--ink2);margin-bottom:36px}
+  .how b{color:var(--ink)}
+  .legend{font-size:13px;color:var(--ink2);margin-bottom:28px;line-height:2}
+  .legend .badge{margin:0 4px 0 0}
+  .stats{color:var(--ink2);font-size:14px;margin-bottom:8px;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:16px}
+  .card .date{font-size:13px;color:var(--ink2);letter-spacing:.08em;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .card .title{font-size:20px;margin:6px 0 12px;letter-spacing:.06em}
+  .card .title .no{font-family:ui-monospace,"SF Mono",Consolas,monospace;font-size:13px;color:var(--cyan);letter-spacing:.14em;margin-right:10px}
+  .meta{font-size:14.5px;color:var(--ink2)}
+  .meta b{color:var(--ink);font-weight:600}
+  .meta p{margin:8px 0}
+  .badge{display:inline-block;font-size:12.5px;border-radius:8px;padding:2px 10px;margin-left:8px;vertical-align:middle;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .badge.open{border:1px solid rgba(103,232,249,.45);color:var(--cyan)}
+  .badge.pending{background:rgba(232,179,75,.14);color:var(--amber)}
+  .badge.refuted{background:#2a333b;color:var(--ink2)}
+  .badge.closed{background:rgba(52,211,153,.14);color:var(--green)}
+  .claims{margin-top:16px;border-top:1px dashed var(--line);padding-top:14px}
+  .claims h3{font-size:15px;letter-spacing:.14em;margin:0 0 12px}
+  .claim{margin-bottom:14px}
+  .claim .c-head{font-size:13.5px;color:var(--ink2);font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .claim .c-head b{color:var(--ink)}
+  .claim p{font-size:14px;color:var(--ink2);margin:4px 0 0}
+  .src{font-size:12.5px;color:var(--ink3);margin-top:14px;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .src a{color:var(--ink3);text-decoration:underline}
+  .next{color:var(--ink2);font-size:14px;border:1px dashed var(--line);border-radius:12px;padding:18px 20px;text-align:center}
+  footer{margin-top:56px;font-size:12.5px;color:var(--ink2);border-top:1px solid var(--line);padding-top:16px;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>人类悬案墙</h1>
+  <p class="sub">每周钉一件人类还没解开的难题，每件配一张验洞卡。</p>
+  <div class="how">玩法：每周钉一件未解难题，数学、物理、医学、计算机轮着来。每张卡写清它悬了多少年、到底在问什么（说人话版）、现在谁在追、最新进展到哪一步。每张卡附一张「验洞卡」：历史上每一次「有人宣称解开了」的记录——谁宣称的、怎么宣称的、洞出在哪、多久被证伪。新的宣称一出现，当天登记为「待验」，等同行评议出结果再改成「证伪」或「封案」。只收真实存在的难题，不编造、不猜测，查不到的留空。</div>
+  <p class="legend">状态说明：<span class="badge pending">待验</span>新宣称已登记，等独立验证<span style="margin-left:12px"></span><span class="badge refuted">证伪</span>已被同行否定<span style="margin-left:12px"></span><span class="badge closed">封案</span>验证通过，悬案终结</p>
+  <div class="stats" id="stats"></div>
+  <div id="list"></div>
+  <div class="next">下一张卡每周钉一件，敬请期待。</div>
+  <footer>银色实验室 · 人类悬案墙（IDEA-167）· 每周钉一件 · 满一年结《人类悬案年鉴》 · <a href="index.html">回实验室</a></footer>
+</div>
+<script>
+const DATA = [{"id": "001", "date": "2026-11-21", "field": "数学 · 数论", "title": "黎曼猜想", "years": "悬了 167 年（1859 年提出）", "status": "open", "status_label": "未解", "plain": "质数 2、3、5、7、11……在数轴上出现得看似随机，黎曼猜想说它们背后藏着一条精确的规律：黎曼 ζ 函数的所有非平凡零点，都落在实部等于 1/2 的那条「临界线」上。如果成立，质数的分布就有了精确的误差范围，数论里许多「差不多对」的结论会一下子变成「严格对」——连质数在密码学里的用法都会被重新审视。", "chasers": "全世界的数论学者；克雷数学研究所 100 万美元悬赏至今无人领走；前 10 万亿个非平凡零点已用计算机验算，全在临界线上——但验算再多也不是证明。", "latest": "2026 年 11 月 20 日，Anthropic 数学家 Levent Alpöge 在个人网站发声明，称与 Claude 合作「发现了黎曼猜想的证明」，还攻克了更广义的版本。声明只有四页，没有传统论文，只附了 14 个压缩包的 Lean 形式化代码。截至发稿，无人完成独立验证。菲尔兹奖得主 James Maynard 说，若完全成立，「无疑是数学史上的里程碑」。（见 AI 早报 2026-11-21）", "claims": [{"date": "2018-09-24", "who": "Michael Atiyah（阿蒂亚）", "status": "refuted", "status_label": "证伪", "text": "89 岁的菲尔兹奖（1966）与阿贝尔奖（2004）得主阿蒂亚，在海德堡获奖者论坛上宣称给出黎曼猜想的「简单证明」，论证基于他尚未发表的 Todd 函数工作。同行评价「太含糊、不具体」「连错都算不上」；证明从未在期刊发表、未被接受。阿蒂亚于 2019 年 1 月去世，享年 89 岁。"}, {"date": "2026-11-20", "who": "Levent Alpöge × Claude", "status": "pending", "status_label": "待验", "text": "Anthropic 数学家 Alpöge 在个人网站发声明，称与 Claude 合作发现黎曼猜想的证明（及更广义版本），以 Lean 形式化代码形式发布。声明发布前一天，Anthropic 刚创纪录上市。截至 2026 年 11 月 21 日，无人完成独立验证。"}, {"date": "2026-11-20", "who": "Alessandro Masullo（斯坦福博士后）", "status": "pending", "status_label": "待验", "text": "同一天，斯坦福博士后 Masullo 拿出了一份纯人工的证明草稿，同样尚未经独立验证。"}], "sources": [{"label": "维基百科「Riemann hypothesis」", "url": "https://en.wikipedia.org/wiki/Riemann_hypothesis"}, {"label": "Science 2018-09-24 阿蒂亚宣称报道", "url": "https://www.science.org/content/article/skepticism-surrounds-renowned-mathematician-s-attempted-proof-160-year-old-hypothesis"}, {"label": "AI 早报 · 11月21日：黎曼猜想被AI攻克了？先别急着庆祝", "url": "https://trojians.github.io/post/ai-zao-bao-11-21/"}]}];
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function card(v){
+  let html = '<div class="card"><div class="date">悬案 ' + esc(v.id) + ' · 上墙 ' + esc(v.date) + ' · ' + esc(v.field) + '<span class="badge open">' + esc(v.status_label) + '</span></div>';
+  html += '<div class="title"><span class="no">No.' + esc(v.id) + '</span>' + esc(v.title) + '</div>';
+  html += '<div class="meta"><p><b>' + esc(v.years) + '</b></p>';
+  html += '<p>它在问什么（说人话）：' + esc(v.plain) + '</p>';
+  html += '<p>现在谁在追：' + esc(v.chasers) + '</p>';
+  html += '<p>最新进展：' + esc(v.latest) + '</p></div>';
+  html += '<div class="claims"><h3>验洞卡 · 宣称记录</h3>';
+  v.claims.forEach(function(c){
+    html += '<div class="claim"><div class="c-head">' + esc(c.date) + ' · <b>' + esc(c.who) + '</b><span class="badge ' + esc(c.status) + '">' + esc(c.status_label) + '</span></div><p>' + esc(c.text) + '</p></div>';
+  });
+  html += '</div>';
+  if(v.sources && v.sources.length){
+    html += '<div class="src">资料来源：' + v.sources.map(function(s){ return '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(s.label) + '</a>'; }).join(' · ') + '</div>';
+  }
+  return html + '</div>';
+}
+const sorted = DATA.slice().sort((a,b)=>b.date.localeCompare(a.date));
+document.getElementById('list').innerHTML = sorted.length ? sorted.map(card).join('') : '<p class="next">墙还是空的，第一张卡正在钉。</p>';
+let pending = 0, refuted = 0, closed = 0;
+DATA.forEach(function(v){ v.claims.forEach(function(c){ if(c.status==='pending') pending++; else if(c.status==='refuted') refuted++; else if(c.status==='closed') closed++; }); });
+document.getElementById('stats').textContent = '共钉 ' + DATA.length + ' 件 · 验洞记录 ' + (pending+refuted+closed) + ' 条（待验 ' + pending + ' · 证伪 ' + refuted + ' · 封案 ' + closed + '）';
+</script>
+</body>
+</html>
