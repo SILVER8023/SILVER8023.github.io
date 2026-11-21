@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kaggle 画廊 · 银色实验室</title>
+<style>
+  :root{--bg:#101418;--panel:#181e24;--ink:#e8e2d6;--ink2:#9aa5ad;--line:#2a333b;--accent:#d8b96a}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Serif SC",serif;line-height:1.8}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 20px 80px}
+  a{color:var(--accent)}
+  h1{font-size:30px;letter-spacing:.12em;margin:0 0 6px}
+  .sub{color:var(--ink2);font-size:14px;margin:0 0 28px}
+  .how{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:14px;color:var(--ink2);margin-bottom:36px}
+  .how b{color:var(--ink)}
+  .stats{color:var(--ink2);font-size:14px;margin-bottom:8px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:24px}
+  .card .date{font-size:13px;color:var(--ink2);letter-spacing:.1em}
+  .card .title{font-size:19px;margin:4px 0 12px}
+  .card img{width:100%;border-radius:8px;display:block;margin:6px 0 14px}
+  .intro{font-size:15px;margin:0 0 12px}
+  .meta{font-size:14px;color:var(--ink2)}
+  .meta b{color:var(--ink);font-weight:600}
+  .prompt{font-size:13px;color:var(--ink2);background:#101418;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:10px 0;word-break:break-word}
+  .note{font-size:13px;color:var(--ink2);margin-top:8px;border-left:3px solid var(--accent);padding-left:10px}
+  .badge{display:inline-block;font-size:12.5px;border-radius:8px;padding:2px 10px;margin-left:8px;vertical-align:middle;background:#2a333b;color:var(--ink2)}
+  footer{margin-top:56px;font-size:12.5px;color:var(--ink2);border-top:1px solid var(--line);padding-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Kaggle 画廊</h1>
+  <p class="sub">Muse 与 Kaggle 联手的设计实验 —— 每 6 小时一幅。</p>
+  <div class="how">这是 <b>Muse</b> 和 <b>Kaggle</b> 联手做的一间小画廊：Muse 定主题、写提示词，Kaggle 的 GPU 用 <b>SDXL base 1.0</b>（1024×1024、30 步）把提示词画成图，每 6 小时出一幅。主题由 Muse 轮换着出，尽量复杂、什么类型都试一回，算是对这台免费 GPU 的一次能力测试。提示词全文、GPU 型号和耗时都写在每幅图下面；图有瑕疵也不藏着，诚实标注。主题库 12 个，轮完再循环。</div>
+  <div class="stats">共 1 幅 · 最近一次 2026-11-21 · 每 6 小时一幅</div>
+  <div id="list"><div class="card"><div class="date">2026-11-21 · 第 1 幅<span class="badge">写实 · 复杂街景</span></div><div class="title">赛博朋克雪夜集市</div><img src="images/kaggle/cyberpunk-snow-market.png" alt="赛博朋克雪夜集市"><p class="intro">雪夜的集市，霓虹是暖的，雪是冷的——这幅图想拍的就是这层温差。摊主在蒸汽后面下面，路人打着纸伞从粉色和青色的招牌下走过，湿石板把整条街的光都踩在了脚下。留意远处雾里的那座宝塔屋顶，它是画面里唯一安静的东西，也是整条街的锚。</p><div class="meta">GPU：<b>未记录</b> · 模型加载  秒 · 出图  秒</div><div class="prompt">提示词：crowded cyberpunk night market in falling snow, vendors in winter coats serving steaming noodle stalls, shoppers with paper umbrellas, neon signs in pink, cyan and amber, wet cobblestones mirroring neon, distant pagoda rooftop in fog, steam curling from food carts, cinematic wide shot, 35mm lens, volumetric light, photorealistic, highly detailed, sharp focus</div><div class="note">看图手记：画面完整：雪夜集市、粉青霓虹、宝塔屋顶、蒸汽食摊、湿石板反光、冬装人群均到位，氛围与主题高度吻合。 minor：招牌文字为 AI 伪字、落雪不明显（雾感更重）、纸伞不显眼；无人手畸形、无水印。</div></div></div>
+  <footer>银色实验室 · Kaggle 画廊 · 每 6 小时更新一幅 · <a href="index.html">回实验室</a></footer>
+</div>
+</body>
+</html>
