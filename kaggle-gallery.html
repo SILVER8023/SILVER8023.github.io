@@ -7,37 +7,84 @@
 <style>
   :root{--bg:#101418;--panel:#181e24;--ink:#e8e2d6;--ink2:#9aa5ad;--line:#2a333b;--accent:#d8b96a}
   *{box-sizing:border-box}
+  [hidden]{display:none!important}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Serif SC",serif;line-height:1.8}
-  .wrap{max-width:720px;margin:0 auto;padding:56px 20px 80px}
+  .wrap{max-width:960px;margin:0 auto;padding:56px 20px 80px}
   a{color:var(--accent)}
   h1{font-size:30px;letter-spacing:.12em;margin:0 0 6px}
   .sub{color:var(--ink2);font-size:14px;margin:0 0 28px}
   .how{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:14px;color:var(--ink2);margin-bottom:36px}
   .how b{color:var(--ink)}
-  .stats{color:var(--ink2);font-size:14px;margin-bottom:8px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:24px}
-  .card .date{font-size:13px;color:var(--ink2);letter-spacing:.1em}
-  .card .title{font-size:19px;margin:4px 0 12px}
-  .card img{width:100%;border-radius:8px;display:block;margin:6px 0 14px}
+  .stats{color:var(--ink2);font-size:14px;margin-bottom:24px}
+  .featured{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:36px}
+  .featured .date{font-size:13px;color:var(--ink2);letter-spacing:.1em}
+  .featured .title{font-size:22px;margin:4px 0 12px}
+  .featured img{width:100%;border-radius:8px;display:block;margin:6px 0 14px;cursor:pointer}
   .intro{font-size:15px;margin:0 0 12px}
   .meta{font-size:14px;color:var(--ink2)}
   .meta b{color:var(--ink);font-weight:600}
-  .prompt{font-size:13px;color:var(--ink2);background:#101418;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:10px 0;word-break:break-word}
   .note{font-size:13px;color:var(--ink2);margin-top:8px;border-left:3px solid var(--accent);padding-left:10px}
   .badge{display:inline-block;font-size:12.5px;border-radius:8px;padding:2px 10px;margin-left:8px;vertical-align:middle;background:#2a333b;color:var(--ink2)}
+  h2.wall{font-size:18px;letter-spacing:.1em;margin:0 0 16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+  .thumb{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer}
+  .thumb img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+  .thumb figcaption{padding:10px 14px;font-size:14px}
+  .thumb .t-date{color:var(--ink2);font-size:12.5px}
+  .lb{position:fixed;inset:0;z-index:50}
+  .lb-bg{position:absolute;inset:0;background:rgba(0,0,0,.82)}
+  .lb-box{position:relative;max-width:860px;max-height:92vh;overflow:auto;margin:4vh auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .lb-box img{width:100%;border-radius:8px;display:block;margin-bottom:14px}
+  .lb-x{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--ink);font-size:26px;cursor:pointer}
+  .lb-title{font-size:20px}
+  .lb-date{font-size:13px;color:var(--ink2);margin-bottom:10px}
   footer{margin-top:56px;font-size:12.5px;color:var(--ink2);border-top:1px solid var(--line);padding-top:16px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Kaggle 画廊</h1>
-  <p class="sub">Muse 与 Kaggle 联手的设计实验 —— 每 6 小时一幅。</p>
-  <div class="how">这是 <b>Muse</b> 和 <b>Kaggle</b> 联手做的一间小画廊：Muse 定主题、写提示词，Kaggle 的 GPU 用 <b>SDXL base 1.0</b>（1024×1024、30 步）把提示词画成图，每 6 小时出一幅。主题由 Muse 轮换着出，尽量复杂、什么类型都试一回，算是对这台免费 GPU 的一次能力测试。提示词全文、GPU 型号和耗时都写在每幅图下面；图有瑕疵也不藏着，诚实标注。主题库 12 个，轮完再循环。</div>
-  <div class="stats">共 3 幅 · 最近一次 2026-11-22 · 每 6 小时一幅</div>
-  <div id="list"><div class="card"><div class="date">2026-11-22 · 第 3 幅<span class="badge">写实 · 史诗远景</span></div><div class="title">蒸汽朋克舰队</div><img src="images/kaggle/steampunk-airship.png" alt="蒸汽朋克舰队"><p class="intro">黄铜和云海，这两个词放在一起就有蒸汽朋克的味道。舰队贴着云层走，甲板上的人小得像火柴，船舷的灯一盏一盏亮着，像是天上搬下来的一条街。看图的时候可以找找那几只海鸥，它们是画面里唯一不属于机器的东西。</p><div class="meta">GPU：<b>Tesla T4\n"}</b> · 模型加载 42.5 秒 · 出图 33.9 秒</div><div class="prompt">提示词：fleet of brass steampunk airships with spinning propellers and riveted hulls sailing above a sea of clouds at golden sunset, tiny crew on wooden decks, gulls circling, distant snow mountains, glowing portholes, billowing canvas sails, epic wide shot, warm amber light, photorealistic, highly detailed, sharp focus</div><div class="note">看图手记：画面完整：黄铜飞艇舰队、云海、落日、远山、帆船与海鸥均到位，暖金色调与主题高度吻合。minor：右下前景船体底部略有裁切、左上云层间有两艘小船略显孤悬；无畸形、无水印、无伪字。</div></div>
-<div class="card"><div class="date">2026-11-22 · 第 2 幅<span class="badge">写实 · 水下奇观</span></div><div class="title">深海遗迹之城</div><img src="images/kaggle/underwater-city.png" alt="深海遗迹之城"><p class="intro">一座城沉进海底之后并没有死，只是换了一种活法。断掉的大理石柱子裹上了珊瑚，水母提着自己的光在拱门之间慢慢漂，像一群迟到的居民。最值得看的是那个打着灯的潜水员——整幅画的比例感全靠他，他一小，整座城就大了。</p><div class="meta">GPU：<b>Tesla T4\n"}</b> · 模型加载 40.2 秒 · 出图 30.7 秒</div><div class="prompt">提示词：ancient sunken marble city on the ocean floor, broken columns wrapped in coral, bioluminescent jellyfish drifting through arches, a lone diver with a warm lantern, schools of small silver fish, god rays piercing deep blue water, floating particles, teal and gold palette, cinematic wide shot, photorealistic, highly detailed, sharp focus</div><div class="note">看图手记：画面完整：水下拱廊遗迹、雕花石柱、珊瑚礁、鱼群、丁达尔光束、沙地光斑均到位，青绿水色与主题高度吻合。minor：右上拱顶略有裁切感、远处遗迹细节偏雾化；无畸形、无水印、无伪字。</div></div>
-<div class="card"><div class="date">2026-11-21 · 第 1 幅<span class="badge">写实 · 复杂街景</span></div><div class="title">赛博朋克雪夜集市</div><img src="images/kaggle/cyberpunk-snow-market.png" alt="赛博朋克雪夜集市"><p class="intro">雪夜的集市，霓虹是暖的，雪是冷的——这幅图想拍的就是这层温差。摊主在蒸汽后面下面，路人打着纸伞从粉色和青色的招牌下走过，湿石板把整条街的光都踩在了脚下。留意远处雾里的那座宝塔屋顶，它是画面里唯一安静的东西，也是整条街的锚。</p><div class="meta">GPU：<b>Tesla T4</b> · 模型加载 40.0 秒 · 出图 31.0 秒</div><div class="prompt">提示词：crowded cyberpunk night market in falling snow, vendors in winter coats serving steaming noodle stalls, shoppers with paper umbrellas, neon signs in pink, cyan and amber, wet cobblestones mirroring neon, distant pagoda rooftop in fog, steam curling from food carts, cinematic wide shot, 35mm lens, volumetric light, photorealistic, highly detailed, sharp focus</div><div class="note">看图手记：画面完整：雪夜集市、粉青霓虹、宝塔屋顶、蒸汽食摊、湿石板反光、冬装人群均到位，氛围与主题高度吻合。 minor：招牌文字为 AI 伪字、落雪不明显（雾感更重）、纸伞不显眼；无人手畸形、无水印。</div></div></div>
-  <footer>银色实验室 · Kaggle 画廊 · 每 6 小时更新一幅 · <a href="index.html">回实验室</a></footer>
+  <p class="sub">Muse 与 Kaggle 联手的设计实验 —— 每 4 小时一幅。</p>
+  <div class="how">这是 <b>Muse</b> 和 <b>Kaggle</b> 联手做的一间小画廊：Muse 定主题、写提示词，Kaggle 的 GPU 用 <b>SDXL base 1.0</b>（1024×1024、30 步）把提示词画成图，每 4 小时出一幅。主题由 Muse 轮换着出，尽量复杂、什么类型都试一回，算是对这台免费 GPU 的一次能力测试。点开每幅图能看到介绍、GPU 型号和耗时；图有瑕疵也不藏着，诚实标注。主题库 12 个，轮完再循环。</div>
+  <div class="stats">共 3 幅 · 最近一次 2026-11-22 · 每 4 小时一幅</div>
+  <div class="featured"><div class="date">2026-11-22 · 最新一幅<span class="badge">写实 · 史诗远景</span></div><div class="title">蒸汽朋克舰队</div><img src="images/kaggle/steampunk-airship.png" alt="蒸汽朋克舰队" onclick="openLb(0)"><p class="intro">黄铜和云海，这两个词放在一起就有蒸汽朋克的味道。舰队贴着云层走，甲板上的人小得像火柴，船舷的灯一盏一盏亮着，像是天上搬下来的一条街。看图的时候可以找找那几只海鸥，它们是画面里唯一不属于机器的东西。</p><div class="meta">GPU：<b>Tesla T4</b> · 模型加载 42.5 秒 · 出图 33.9 秒</div><div class="note">看图手记：画面完整：黄铜飞艇舰队、云海、落日、远山、帆船与海鸥均到位，暖金色调与主题高度吻合。minor：右下前景船体底部略有裁切、左上云层间有两艘小船略显孤悬；无畸形、无水印、无伪字。</div></div>
+  <h2 class="wall">全部作品</h2>
+  <div class="grid"><figure class="thumb" onclick="openLb(0)"><img src="images/kaggle/steampunk-airship.png" alt="蒸汽朋克舰队" loading="lazy"><figcaption>蒸汽朋克舰队<div class="t-date">2026-11-22 · 写实 · 史诗远景</div></figcaption></figure>
+<figure class="thumb" onclick="openLb(1)"><img src="images/kaggle/underwater-city.png" alt="深海遗迹之城" loading="lazy"><figcaption>深海遗迹之城<div class="t-date">2026-11-22 · 写实 · 水下奇观</div></figcaption></figure>
+<figure class="thumb" onclick="openLb(2)"><img src="images/kaggle/cyberpunk-snow-market.png" alt="赛博朋克雪夜集市" loading="lazy"><figcaption>赛博朋克雪夜集市<div class="t-date">2026-11-21 · 写实 · 复杂街景</div></figcaption></figure></div>
+  <footer>银色实验室 · Kaggle 画廊 · 每 4 小时更新一幅 · <a href="index.html">回实验室</a></footer>
 </div>
+<div id="lb" class="lb" hidden>
+  <div class="lb-bg" onclick="closeLb()"></div>
+  <div class="lb-box">
+    <button class="lb-x" onclick="closeLb()" aria-label="关闭">×</button>
+    <img id="lb-img" src="" alt="">
+    <div class="lb-title" id="lb-title"></div>
+    <div class="lb-date" id="lb-date"></div>
+    <p class="intro" id="lb-intro"></p>
+    <div class="meta" id="lb-meta"></div>
+    <div class="note" id="lb-note"></div>
+  </div>
+</div>
+<script>
+const DATA = [{"date": "2026-11-22", "zh": "蒸汽朋克舰队", "type": "写实 · 史诗远景", "intro": "黄铜和云海，这两个词放在一起就有蒸汽朋克的味道。舰队贴着云层走，甲板上的人小得像火柴，船舷的灯一盏一盏亮着，像是天上搬下来的一条街。看图的时候可以找找那几只海鸥，它们是画面里唯一不属于机器的东西。", "meta": "GPU：<b>Tesla T4<\/b> · 模型加载 42.5 秒 · 出图 33.9 秒", "image": "steampunk-airship.png", "note": "画面完整：黄铜飞艇舰队、云海、落日、远山、帆船与海鸥均到位，暖金色调与主题高度吻合。minor：右下前景船体底部略有裁切、左上云层间有两艘小船略显孤悬；无畸形、无水印、无伪字。"}, {"date": "2026-11-22", "zh": "深海遗迹之城", "type": "写实 · 水下奇观", "intro": "一座城沉进海底之后并没有死，只是换了一种活法。断掉的大理石柱子裹上了珊瑚，水母提着自己的光在拱门之间慢慢漂，像一群迟到的居民。最值得看的是那个打着灯的潜水员——整幅画的比例感全靠他，他一小，整座城就大了。", "meta": "GPU：<b>Tesla T4<\/b> · 模型加载 40.2 秒 · 出图 30.7 秒", "image": "underwater-city.png", "note": "画面完整：水下拱廊遗迹、雕花石柱、珊瑚礁、鱼群、丁达尔光束、沙地光斑均到位，青绿水色与主题高度吻合。minor：右上拱顶略有裁切感、远处遗迹细节偏雾化；无畸形、无水印、无伪字。"}, {"date": "2026-11-21", "zh": "赛博朋克雪夜集市", "type": "写实 · 复杂街景", "intro": "雪夜的集市，霓虹是暖的，雪是冷的——这幅图想拍的就是这层温差。摊主在蒸汽后面下面，路人打着纸伞从粉色和青色的招牌下走过，湿石板把整条街的光都踩在了脚下。留意远处雾里的那座宝塔屋顶，它是画面里唯一安静的东西，也是整条街的锚。", "meta": "GPU：<b>Tesla T4<\/b> · 模型加载 40.0 秒 · 出图 31.0 秒", "image": "cyberpunk-snow-market.png", "note": "画面完整：雪夜集市、粉青霓虹、宝塔屋顶、蒸汽食摊、湿石板反光、冬装人群均到位，氛围与主题高度吻合。 minor：招牌文字为 AI 伪字、落雪不明显（雾感更重）、纸伞不显眼；无人手畸形、无水印。"}];
+function openLb(i){
+  const e = DATA[i];
+  document.getElementById('lb-img').src = 'images/kaggle/' + e.image;
+  document.getElementById('lb-img').alt = e.zh;
+  document.getElementById('lb-title').textContent = e.zh;
+  document.getElementById('lb-date').textContent = e.date + ' · ' + e.type;
+  document.getElementById('lb-intro').textContent = e.intro || '';
+  document.getElementById('lb-meta').innerHTML = e.meta;
+  document.getElementById('lb-note').textContent = e.note ? '看图手记：' + e.note : '';
+  document.getElementById('lb').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+function closeLb(){
+  document.getElementById('lb').hidden = true;
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape') closeLb(); });
+</script>
 </body>
 </html>
