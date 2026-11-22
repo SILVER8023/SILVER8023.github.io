@@ -5,67 +5,72 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kaggle 画廊 · 银色实验室</title>
 <script type="importmap">
-{"imports":{"three":"./js/three.module.min.js","three/addons/":"./js/"}}
+{"imports":{"three":"./js/three.module.min.js"}}
 </script>
 <style>
   :root{--bg:#101418;--panel:#181e24;--ink:#e8e2d6;--ink2:#9aa5ad;--line:#2a333b;--accent:#d8b96a}
   *{box-sizing:border-box}
-  [hidden]{display:none!important}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Serif SC",serif;line-height:1.8}
-  .wrap{max-width:960px;margin:0 auto;padding:56px 20px 80px}
+  .wrap{max-width:1080px;margin:0 auto;padding:56px 20px 80px}
   a{color:var(--accent)}
   h1{font-size:30px;letter-spacing:.12em;margin:0 0 6px}
   .sub{color:var(--ink2);font-size:14px;margin:0 0 28px}
-  .how{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:14px;color:var(--ink2);margin-bottom:36px}
+  .how{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:14px;color:var(--ink2);margin-bottom:28px}
   .how b{color:var(--ink)}
-  .stats{color:var(--ink2);font-size:14px;margin-bottom:24px}
-  .room{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#e6e4df}
-  .room canvas{display:block;width:100%;height:520px;touch-action:none}
-  @media (max-width:640px){.room canvas{height:380px}}
-  .room .loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#6b6f73;font-size:14px;background:#e6e4df}
-  .wallnav{position:absolute;top:12px;right:12px;display:flex;gap:8px;align-items:center}
-  .wallnav button{background:rgba(16,20,24,.72);color:#e8e2d6;border:1px solid rgba(232,226,214,.35);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer}
-  .wallnav button:disabled{opacity:.4;cursor:default}
-  .wallnav span{font-size:13px;color:#3a3f44;background:rgba(255,255,255,.78);border-radius:8px;padding:6px 10px}
-  .panel{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(16,20,24,.88);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-  .panel .p-title{font-size:18px}
-  .panel .p-date{font-size:13px;color:var(--ink2);margin-bottom:6px}
-  .panel .p-intro{font-size:14px;margin:0 0 8px}
-  .panel .p-meta{font-size:13px;color:var(--ink2)}
-  .panel .p-meta b{color:var(--ink);font-weight:600}
-  .panel .p-note{font-size:13px;color:var(--ink2);margin-top:6px;border-left:3px solid var(--accent);padding-left:10px}
-  .panel .p-x{position:absolute;top:8px;right:12px;background:none;border:none;color:var(--ink);font-size:22px;cursor:pointer}
-  .list{margin-top:28px;border-top:1px solid var(--line);padding-top:16px;font-size:14px;color:var(--ink2)}
-  .list b{color:var(--ink)}
-  .list li{margin-bottom:4px}
+  .stats{color:var(--ink2);font-size:14px;margin-bottom:16px}
+  .hint{color:var(--accent);font-size:13px;margin:0 0 12px;opacity:.9;transition:opacity 1s}
+  #stage{position:relative;max-width:1080px;margin:0 auto;height:600px;border-radius:14px;overflow:hidden;border:1px solid var(--line);cursor:grab;background:#0b0e12}
+  @media (max-width:640px){#stage{height:420px}}
+  #stage:active{cursor:grabbing}
+  canvas{display:block}
+  #tag{position:absolute;pointer-events:none;background:rgba(10,13,17,.82);border:1px solid var(--accent);color:var(--ink);
+       padding:6px 12px;border-radius:6px;font-size:14px;transform:translate(-50%,-140%);white-space:nowrap;display:none}
+  #tag small{display:block;color:var(--ink2);font-size:11px;text-align:center}
+  #plaque{position:absolute;right:24px;top:24px;bottom:24px;width:320px;background:rgba(11,14,18,.92);
+          border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:22px;
+          backdrop-filter:blur(6px);overflow-y:auto;transform:translateX(30px);opacity:0;transition:all .45s ease;pointer-events:none}
+  #plaque.show{transform:none;opacity:1;pointer-events:auto}
+  #plaque h2{margin:0 0 4px;font-size:20px}
+  #plaque .date{color:var(--ink2);font-size:12px;margin-bottom:14px}
+  #plaque p{font-size:13.5px;margin:0 0 12px}
+  #plaque .meta{font-size:12.5px;color:var(--accent);border-top:1px dashed var(--line);padding-top:12px}
+  #plaque .meta b{color:var(--ink)}
+  #plaque .note{font-size:12px;color:var(--ink2)}
+  #plaque .back{margin-top:16px;width:100%;background:none;border:1px solid var(--accent);color:var(--accent);
+                padding:8px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px}
+  #plaque .back:hover{background:rgba(216,185,106,.12)}
+  #timeline{max-width:1080px;margin:10px auto 0;padding:0 4px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--ink2)}
+  #tbar{flex:1;height:2px;background:var(--line);position:relative;cursor:pointer}
+  #tknob{position:absolute;top:-5px;width:12px;height:12px;border-radius:50%;background:var(--accent);left:0}
+  #fallback{max-width:1080px;margin:18px auto;display:none;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding:0 20px}
+  #fallback figure{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  #fallback img{width:100%;display:block}
+  #fallback figcaption{padding:12px 14px;font-size:13px}
+  #fallback figcaption b{font-size:15px}
+  #fallback .m{color:var(--ink2);font-size:12px}
   footer{margin-top:56px;font-size:12.5px;color:var(--ink2);border-top:1px solid var(--line);padding-top:16px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Kaggle 画廊</h1>
-  <p class="sub">Muse 与 Kaggle 联手的设计实验 —— 每 4 小时一幅。</p>
-  <div class="how">这是 <b>Muse</b> 和 <b>Kaggle</b> 联手做的一间小画廊：Muse 定主题、写提示词，Kaggle 的 GPU 用 <b>SDXL base 1.0</b>（1024×1024、30 步）把提示词画成图，每 4 小时出一幅。主题由 Muse 轮换着出，尽量复杂、什么类型都试一回，算是对这台免费 GPU 的一次能力测试。拖动可以四处看看，点墙上的画能看到介绍、GPU 型号和耗时；图有瑕疵也不藏着，诚实标注。主题库 12 个，轮完再循环。</div>
+  <p class="sub">Muse 与 Kaggle 联手的设计实验 —— 每 4 小时一幅。画廊不是一面墙，而是一条时间走廊：最新的作品在入口，越走越深，越走越早。</p>
+  <div class="how">这是 <b>Muse</b> 和 <b>Kaggle</b> 联手做的一间小画廊：Muse 定主题、写提示词，Kaggle 的 GPU 用 <b>SDXL base 1.0</b>（1024×1024、30 步）把提示词画成图，每 4 小时出一幅。主题由 Muse 轮换着出，尽量复杂、什么类型都试一回，算是对这台免费 GPU 的一次能力测试。每一幅画悬浮在机房的微光之间，走近它，看它的展签；图有瑕疵也不藏着，诚实标注。主题库 12 个，轮完再循环。</div>
   <div class="stats">共 3 幅 · 最近一次 2026-11-22 · 每 4 小时一幅</div>
-  <div class="room" id="room">
-    <canvas id="c"></canvas>
-    <div class="loading" id="loading">正在布展……</div>
-    <div class="wallnav" id="wallnav" hidden>
-      <button id="prevWall" type="button">‹ 上一面墙</button>
-      <span id="wallLabel"></span>
-      <button id="nextWall" type="button">下一面墙 ›</button>
-    </div>
-    <div class="panel" id="panel" hidden>
-      <button class="p-x" id="panelX" aria-label="关闭">×</button>
-      <div class="p-title" id="p-title"></div>
-      <div class="p-date" id="p-date"></div>
-      <p class="p-intro" id="p-intro"></p>
-      <div class="p-meta" id="p-meta"></div>
-      <div class="p-note" id="p-note"></div>
-    </div>
-    <div class="loading" id="fallback" hidden>这个浏览器打不开 3D 展厅，下方有全部作品的文字列表。</div>
+  <div class="hint" id="hint">← → 或拖拽下方时间轴沿走廊移动 · 点击画作，走过去看展签</div>
+  <div id="stage">
+    <div id="tag"></div>
+    <aside id="plaque">
+      <h2 id="q-title"></h2>
+      <div class="date" id="q-date"></div>
+      <p id="q-intro"></p>
+      <div class="meta" id="q-meta"></div>
+      <p class="note" id="q-note"></p>
+      <button class="back" id="q-back">← 退回走廊</button>
+    </aside>
   </div>
-  <div class="list"><b>全部作品</b><ul><li><b>第 3 幅 · 蒸汽朋克舰队</b> —— 2026-11-22 · 写实 · 史诗远景</li><li><b>第 2 幅 · 深海遗迹之城</b> —— 2026-11-22 · 写实 · 水下奇观</li><li><b>第 1 幅 · 赛博朋克雪夜集市</b> —— 2026-11-21 · 写实 · 复杂街景</li></ul></div>
+  <div id="timeline"><span>最新</span><div id="tbar"><div id="tknob"></div></div><span>最早</span></div>
+  <div id="fallback"></div>
   <footer>银色实验室 · Kaggle 画廊 · 每 4 小时更新一幅 · <a href="index.html">回实验室</a></footer>
 </div>
 <script>
@@ -73,255 +78,259 @@ const DATA = [{"date": "2026-11-22", "zh": "蒸汽朋克舰队", "type": "写实
 </script>
 <script type="module">
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { Reflector } from 'three/addons/objects/Reflector.js';
 
-const room = document.getElementById('room');
-const canvas = document.getElementById('c');
-const loading = document.getElementById('loading');
-const fallback = document.getElementById('fallback');
-const panel = document.getElementById('panel');
-const wallnav = document.getElementById('wallnav');
-const wallLabel = document.getElementById('wallLabel');
-const prevBtn = document.getElementById('prevWall');
-const nextBtn = document.getElementById('nextWall');
-
-const WALL_SIZE = 8;
-const walls = [];
-for (let i = 0; i < DATA.length; i += WALL_SIZE) walls.push(DATA.slice(i, i + WALL_SIZE));
-let wallIndex = 0;
-let pickables = [];
-let paintingGroup = null;
+const stage = document.getElementById('stage');
+const tag = document.getElementById('tag');
+const plaque = document.getElementById('plaque');
+const IMG_BASE = "images/kaggle/";
+const SPACING = 5.2;
 
 let renderer;
 try {
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-} catch (err) {
-  loading.hidden = true;
-  fallback.hidden = false;
-  throw err;
-}
-renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-renderer.outputColorSpace = THREE.SRGBColorSpace;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.05;
+  renderer = new THREE.WebGLRenderer({ antialias:true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+} catch(e) { showFallback(); throw e; }
+stage.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xe6e4df);
+scene.background = new THREE.Color(0x0b0e12);
+scene.fog = new THREE.FogExp2(0x0b0e12, 0.045);
 
-const camera = new THREE.PerspectiveCamera(55, 2, 0.1, 100);
-camera.position.set(0, 1.8, 4.8);
+const camera = new THREE.PerspectiveCamera(58, 2, 0.1, 120);
 
-const controls = new OrbitControls(camera, canvas);
-controls.target.set(0, 1.85, -2);
-controls.enableDamping = true;
-controls.dampingFactor = 0.08;
-controls.enablePan = false;
-controls.minDistance = 3.5;
-controls.maxDistance = 9.5;
-controls.minPolarAngle = 0.85;
-controls.maxPolarAngle = 1.62;
-controls.minAzimuthAngle = -0.85;
-controls.maxAzimuthAngle = 0.85;
+scene.add(new THREE.AmbientLight(0x8899aa, 0.18));
+const keyLight = new THREE.DirectionalLight(0xffffff, 0.25);
+keyLight.position.set(3, 8, 5);
+scene.add(keyLight);
 
-// 灯光
-scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-scene.add(new THREE.HemisphereLight(0xffffff, 0x9aa0a3, 0.5));
-const dir = new THREE.DirectionalLight(0xffffff, 0.5);
-dir.position.set(2, 6, 6);
-scene.add(dir);
-function spot(x, y, z, tx, ty, tz) {
-  const s = new THREE.SpotLight(0xfff2dd, 12, 16, 0.42, 0.9, 1.4);
-  s.position.set(x, y, z);
-  s.target.position.set(tx, ty, tz);
-  scene.add(s, s.target);
-  return s;
-}
-spot(0, 4.1, -1.2, 0, 2.0, -3.5);
-spot(-5.2, 4.1, 0, -7, 2.0, 0);
-spot(5.2, 4.1, 0, 7, 2.0, 0);
-
-// 地面：镜面 + 半透明抛光罩面
-const mirror = new Reflector(new THREE.PlaneGeometry(14, 8), {
-  clipBias: 0.003,
-  textureWidth: 1024,
-  textureHeight: 1024,
-  color: 0x8f9599
-});
-mirror.rotation.x = -Math.PI / 2;
-mirror.position.set(0, 0, 0.5);
-scene.add(mirror);
-const floorCoat = new THREE.Mesh(
-  new THREE.PlaneGeometry(14, 8),
-  new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.22, roughness: 0.35, metalness: 0.05 })
+const floor = new THREE.Mesh(
+  new THREE.PlaneGeometry(30, 240),
+  new THREE.MeshStandardMaterial({ color:0x10151b, roughness:0.28, metalness:0.6 })
 );
-floorCoat.rotation.x = -Math.PI / 2;
-floorCoat.position.set(0, 0.005, 0.5);
-scene.add(floorCoat);
-
-// 墙
-const wallMat = new THREE.MeshStandardMaterial({ color: 0xf5f3ee, roughness: 0.95 });
-function addWall(w, h, x, y, z, ry) {
-  const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), wallMat);
-  m.position.set(x, y, z);
-  m.rotation.y = ry;
-  scene.add(m);
-  return m;
+floor.rotation.x = -Math.PI/2;
+scene.add(floor);
+const stripMat = new THREE.MeshBasicMaterial({ color:0x2a3f52 });
+for (let i=-1;i<=1;i+=2){
+  const strip = new THREE.Mesh(new THREE.PlaneGeometry(0.08, 240), stripMat);
+  strip.rotation.x = -Math.PI/2;
+  strip.position.set(i*2.6, 0.01, 0);
+  scene.add(strip);
 }
-addWall(14, 4.2, 0, 2.1, -3.5, 0);
-addWall(8, 4.2, -7, 2.1, 0.5, Math.PI / 2);
-addWall(8, 4.2, 7, 2.1, 0.5, -Math.PI / 2);
 
-// 墙面标题
-(function wallTitle() {
-  const cv = document.createElement('canvas');
-  cv.width = 512; cv.height = 128;
-  const ctx = cv.getContext('2d');
-  ctx.fillStyle = '#26262a';
-  ctx.font = '600 62px "Noto Serif SC", serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('Kaggle 画廊', 256, 66);
-  const tex = new THREE.CanvasTexture(cv);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  const plate = new THREE.Mesh(
-    new THREE.PlaneGeometry(1.9, 0.48),
-    new THREE.MeshBasicMaterial({ map: tex, transparent: true })
-  );
-  plate.position.set(0, 3.55, -3.48);
-  scene.add(plate);
-})();
+const rackMat = new THREE.MeshStandardMaterial({ color:0x141b22, roughness:0.7, metalness:0.3 });
+const ledMats = [];
+const corridorLen = (DATA.length - 1) * SPACING + 16;
+const rackCount = Math.ceil((corridorLen + 8) / (SPACING * 2)) + 1;
+for (let side of [-1, 1]) {
+  for (let i=0; i<rackCount; i++) {
+    const z = -8 - i*SPACING*2;
+    const rack = new THREE.Mesh(new THREE.BoxGeometry(0.7, 3.2, 3.4), rackMat);
+    rack.position.set(side*6.2, 1.6, z);
+    scene.add(rack);
+    const led = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.5, 2.6),
+      new THREE.MeshBasicMaterial({ color: side>0?0x1f5a46:0x5a3a1f, transparent:true, opacity:0.5 })
+    );
+    led.position.set(side*(6.2-0.36), 1.6, z);
+    led.rotation.y = side>0 ? -Math.PI/2 : Math.PI/2;
+    ledMats.push(led.material);
+    scene.add(led);
+  }
+}
 
-// 画框 + 画布
-const frameMat = new THREE.MeshStandardMaterial({ color: 0x17181a, roughness: 0.45, metalness: 0.15 });
-const matMat = new THREE.MeshStandardMaterial({ color: 0xf7f4ec, roughness: 0.9 });
-const texLoader = new THREE.TextureLoader();
-function makePainting(entry) {
+const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(30, 240),
+  new THREE.MeshStandardMaterial({ color:0x0d1116, roughness:1 }));
+ceiling.rotation.x = Math.PI/2; ceiling.position.y = 4.6;
+scene.add(ceiling);
+
+const loader = new THREE.TextureLoader();
+loader.setCrossOrigin('anonymous');
+const paintings = [];
+DATA.forEach((entry, idx) => {
   const g = new THREE.Group();
-  const S = 2.0;
-  const frame = new THREE.Mesh(new THREE.BoxGeometry(S + 0.14, S + 0.14, 0.06), frameMat.clone());
-  frame.position.z = 0.03;
+  const halo = new THREE.Mesh(
+    new THREE.PlaneGeometry(2.6, 2.6),
+    new THREE.MeshBasicMaterial({ color:0xd8b96a, transparent:true, opacity:0.0 })
+  );
+  halo.position.z = -0.02;
+  g.add(halo);
+  const frame = new THREE.Mesh(
+    new THREE.BoxGeometry(2.15, 2.15, 0.09),
+    new THREE.MeshStandardMaterial({ color:0x1a1d21, roughness:0.4, metalness:0.5 })
+  );
   g.add(frame);
-  const mat = new THREE.Mesh(new THREE.PlaneGeometry(S + 0.08, S + 0.08), matMat);
-  mat.position.z = 0.062;
-  g.add(mat);
-  const tex = texLoader.load('images/kaggle/' + entry.image, function (t) { t.colorSpace = THREE.SRGBColorSpace; });
-  const cv = new THREE.Mesh(new THREE.PlaneGeometry(S, S), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85 }));
-  cv.position.z = 0.066;
-  cv.userData.entry = entry;
-  cv.userData.frame = frame;
+  const tex = loader.load(IMG_BASE + entry.image, t => { t.colorSpace = THREE.SRGBColorSpace; });
+  const cv = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.9, 1.9),
+    new THREE.MeshStandardMaterial({ map:tex, roughness:0.7, emissive:0xffffff, emissiveIntensity:0.14, emissiveMap:tex })
+  );
+  cv.position.z = 0.05;
+  cv.userData = { entry, idx, halo };
   g.add(cv);
-  pickables.push(cv);
-  return g;
-}
+  const baseY = 2.1 + Math.random()*0.1;
+  const z = -4 - idx*SPACING;
+  const side = idx % 2 === 0 ? 1 : -1;
+  g.position.set(side*3.0, baseY, z);
+  g.rotation.y = side>0 ? -0.5 : 0.5;
+  scene.add(g);
+  paintings.push({ group:g, cv, entry, idx, baseY });
+  const spot = new THREE.SpotLight(0xfff2dd, 26, 14, 0.42, 0.85, 1.3);
+  spot.position.set(side*3.0, 4.3, z+0.6);
+  spot.target = g;
+  scene.add(spot);
+});
 
-function layout(entries) {
-  const back = entries.slice(0, 4);
-  const left = entries.slice(4, 6);
-  const right = entries.slice(6, 8);
-  const group = new THREE.Group();
-  function spread(n) { const out = []; for (let i = 0; i < n; i++) out.push((i - (n - 1) / 2) * 3.0); return out; }
-  back.forEach((e, i) => {
-    const p = makePainting(e);
-    p.position.set(spread(back.length)[i], 2.0, -3.5);
-    group.add(p);
-  });
-  left.forEach((e, i) => {
-    const p = makePainting(e);
-    p.position.set(-7, 2.0, 0.5 + spread(left.length)[i]);
-    p.rotation.y = Math.PI / 2;
-    group.add(p);
-  });
-  right.forEach((e, i) => {
-    const p = makePainting(e);
-    p.position.set(7, 2.0, 0.5 + spread(right.length)[i]);
-    p.rotation.y = -Math.PI / 2;
-    group.add(p);
-  });
-  return group;
-}
+const endWall = new THREE.Mesh(new THREE.PlaneGeometry(14, 6),
+  new THREE.MeshStandardMaterial({ color:0x10151b, roughness:0.9 }));
+endWall.position.set(0, 3, -4 - (DATA.length-1)*SPACING - 8);
+scene.add(endWall);
 
-function showWall(i) {
-  wallIndex = i;
-  if (paintingGroup) scene.remove(paintingGroup);
-  pickables = [];
-  paintingGroup = layout(walls[wallIndex]);
-  scene.add(paintingGroup);
-  wallLabel.textContent = '第 ' + (wallIndex + 1) + ' / ' + walls.length + ' 面墙';
-  prevBtn.disabled = wallIndex === 0;
-  nextBtn.disabled = wallIndex === walls.length - 1;
-  wallnav.hidden = walls.length <= 1;
-  closePanel();
-}
-function fadeSwap(i) {
-  canvas.style.transition = 'opacity .25s';
-  canvas.style.opacity = '0';
-  setTimeout(() => { showWall(i); canvas.style.opacity = '1'; }, 260);
-}
-prevBtn.addEventListener('click', () => { if (wallIndex > 0) fadeSwap(wallIndex - 1); });
-nextBtn.addEventListener('click', () => { if (wallIndex < walls.length - 1) fadeSwap(wallIndex + 1); });
+const home = new THREE.Vector3(0, 1.9, 2.5);
+const homeTarget = new THREE.Vector3(0, 1.9, -6);
+let focusIdx = -1;
+let cruise = 0;
+let camPos = home.clone(), camTarget = homeTarget.clone();
 
-// 点画看信息
+function clampCruise(v){ return Math.max(0, Math.min(1, v)); }
+function corridorPose(t){
+  const z = 2.5 - t * (2.5 - (-4 - (DATA.length-1)*SPACING - 1));
+  return { pos:new THREE.Vector3(Math.sin(t*Math.PI*2)*0.6, 1.9, z), target:new THREE.Vector3(0, 1.9, z-6) };
+}
+function focusPose(i){
+  const p = paintings[i];
+  const normal = new THREE.Vector3(0, 0, 1).applyQuaternion(p.group.quaternion);
+  const pos = p.group.position.clone().addScaledVector(normal, 3.6);
+  pos.y = p.group.position.y - 0.1;
+  return { pos, target: p.group.position.clone() };
+}
+function lerpPose(from, to, k){
+  camPos.lerpVectors(from.pos, to.pos, k);
+  camTarget.lerpVectors(from.target, to.target, k);
+}
+let poseFrom = corridorPose(0), poseTo = corridorPose(0), poseK = 1;
+
+function flyTo(getPose){ poseFrom = { pos:camPos.clone(), target:camTarget.clone() }; poseTo = getPose(); poseK = 0; }
+
+const tbar = document.getElementById('tbar'), tknob = document.getElementById('tknob');
+let dragging = false;
+function setFromEvent(e){
+  const r = tbar.getBoundingClientRect();
+  cruise = clampCruise((e.clientX - r.left) / r.width);
+  tknob.style.left = (cruise*100) + '%';
+  if (focusIdx >= 0) closePlaque();
+  flyTo(() => corridorPose(cruise));
+}
+tbar.addEventListener('pointerdown', e => { dragging = true; tbar.setPointerCapture(e.pointerId); setFromEvent(e); });
+tbar.addEventListener('pointermove', e => { if (dragging) setFromEvent(e); });
+tbar.addEventListener('pointerup', () => dragging = false);
+addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') { cruise = clampCruise(cruise + 0.08); tknob.style.left = cruise*100+'%'; if (focusIdx>=0) closePlaque(); flyTo(() => corridorPose(cruise)); }
+  if (e.key === 'ArrowLeft')  { cruise = clampCruise(cruise - 0.08); tknob.style.left = cruise*100+'%'; if (focusIdx>=0) closePlaque(); flyTo(() => corridorPose(cruise)); }
+  if (e.key === 'Escape') closePlaque();
+});
+let downX = 0, downCruise = 0, moved = false;
+renderer.domElement.addEventListener('pointerdown', e => { downX = e.clientX; downCruise = cruise; moved = false; });
+renderer.domElement.addEventListener('pointermove', e => {
+  if (e.buttons === 1) {
+    const dx = e.clientX - downX;
+    if (Math.abs(dx) > 4) { moved = true; cruise = clampCruise(downCruise + dx / 700); tknob.style.left = cruise*100+'%'; if (focusIdx>=0) closePlaque(); flyTo(() => corridorPose(cruise)); }
+  } else hoverCheck(e);
+});
+renderer.domElement.addEventListener('pointerup', e => { if (!moved) clickCheck(e); });
+
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
-let downX = 0, downY = 0;
 let hovered = null;
-function setPointer(ev) {
-  const r = canvas.getBoundingClientRect();
-  pointer.x = ((ev.clientX - r.left) / r.width) * 2 - 1;
-  pointer.y = -((ev.clientY - r.top) / r.height) * 2 + 1;
-}
-canvas.addEventListener('pointerdown', (ev) => { downX = ev.clientX; downY = ev.clientY; });
-canvas.addEventListener('pointerup', (ev) => {
-  if (Math.hypot(ev.clientX - downX, ev.clientY - downY) > 6) return;
-  setPointer(ev);
+function castAt(e){
+  const r = renderer.domElement.getBoundingClientRect();
+  pointer.x = ((e.clientX-r.left)/r.width)*2-1;
+  pointer.y = -((e.clientY-r.top)/r.height)*2+1;
   raycaster.setFromCamera(pointer, camera);
-  const hit = raycaster.intersectObjects(pickables, false)[0];
-  if (hit) openPanel(hit.object.userData.entry);
-});
-canvas.addEventListener('pointermove', (ev) => {
-  setPointer(ev);
-  raycaster.setFromCamera(pointer, camera);
-  const hit = raycaster.intersectObjects(pickables, false)[0];
-  const frame = hit ? hit.object.userData.frame : null;
-  if (hovered && hovered !== frame) hovered.material.emissive.setHex(0x000000);
-  hovered = frame;
-  if (hovered) hovered.material.emissive.setHex(0x2a1f08);
-  canvas.style.cursor = hit ? 'pointer' : '';
-});
-
-function openPanel(e) {
-  document.getElementById('p-title').textContent = e.zh;
-  document.getElementById('p-date').textContent = e.date + ' · ' + e.type;
-  document.getElementById('p-intro').textContent = e.intro || '';
-  document.getElementById('p-meta').innerHTML = e.meta;
-  document.getElementById('p-note').textContent = e.note ? '看图手记：' + e.note : '';
-  panel.hidden = false;
+  return raycaster.intersectObjects(paintings.map(p=>p.cv), false)[0];
 }
-function closePanel() { panel.hidden = true; }
-document.getElementById('panelX').addEventListener('click', closePanel);
-document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closePanel(); });
+function hoverCheck(e){
+  if (focusIdx >= 0) { setHover(null, e); return; }
+  const hit = castAt(e);
+  setHover(hit ? hit.object : null, e);
+}
+function setHover(cv, e){
+  if (hovered && hovered !== cv) hovered.userData.halo.material.opacity = 0;
+  hovered = cv;
+  if (cv) {
+    cv.userData.halo.material.opacity = 0.22;
+    const entry = cv.userData.entry;
+    tag.innerHTML = entry.zh + '<small>' + entry.date + ' · ' + entry.type + '</small>';
+    const r = stage.getBoundingClientRect();
+    tag.style.left = (e.clientX - r.left) + 'px';
+    tag.style.top  = (e.clientY - r.top) + 'px';
+    tag.style.display = 'block';
+    stage.style.cursor = 'pointer';
+  } else { tag.style.display = 'none'; stage.style.cursor = 'grab'; }
+}
+function clickCheck(e){
+  const hit = castAt(e);
+  if (hit) openPlaque(hit.object.userData.idx);
+}
 
-// 尺寸与渲染循环
-function resize() {
-  const w = room.clientWidth;
-  const h = window.innerWidth <= 640 ? 380 : 520;
+function openPlaque(i){
+  focusIdx = i;
+  const e = DATA[i];
+  document.getElementById('q-title').textContent = '第 ' + (DATA.length - i) + ' 幅 · ' + e.zh;
+  document.getElementById('q-date').textContent = e.date + ' · ' + e.type;
+  document.getElementById('q-intro').textContent = e.intro;
+  document.getElementById('q-meta').innerHTML = '⚙ ' + e.meta;
+  document.getElementById('q-note').textContent = e.note ? '看图手记：' + e.note : '';
+  plaque.classList.add('show');
+  tag.style.display = 'none';
+  flyTo(() => focusPose(i));
+}
+function closePlaque(){
+  if (focusIdx < 0) return;
+  focusIdx = -1;
+  plaque.classList.remove('show');
+  flyTo(() => corridorPose(cruise));
+}
+document.getElementById('q-back').addEventListener('click', closePlaque);
+
+function showFallback(){
+  document.getElementById('stage').style.display = 'none';
+  document.getElementById('timeline').style.display = 'none';
+  const fb = document.getElementById('fallback');
+  fb.style.display = 'grid';
+  fb.innerHTML = DATA.map(e => `<figure><img loading="lazy" src="${IMG_BASE}${e.image}" alt="${e.zh}">
+    <figcaption><b>${e.zh}</b> · ${e.date} · ${e.type}<div class="m">${e.intro}</div><div class="m">⚙ ${e.meta}</div><div class="m">${e.note ? '看图手记：' + e.note : ''}</div></figcaption></figure>`).join('');
+}
+
+function resize(){
+  const w = stage.clientWidth, h = stage.clientHeight;
   renderer.setSize(w, h, false);
-  camera.aspect = w / h;
+  camera.aspect = w/h;
   camera.updateProjectionMatrix();
 }
-new ResizeObserver(resize).observe(room);
+new ResizeObserver(resize).observe(stage);
 resize();
-const manager = THREE.DefaultLoadingManager;
-manager.onLoad = () => { loading.hidden = true; };
-manager.onError = () => { loading.hidden = true; };
-function animate() {
+
+const clock = new THREE.Clock();
+function animate(){
   requestAnimationFrame(animate);
-  controls.update();
+  const t = clock.getElapsedTime();
+  paintings.forEach((p, i) => {
+    p.group.position.y = p.baseY + Math.sin(t*0.8 + i*1.7)*0.05;
+  });
+  ledMats.forEach((m, i) => m.opacity = 0.35 + 0.25*Math.sin(t*1.4 + i*2.1));
+  poseK = Math.min(1, poseK + 0.022);
+  const k = 1 - Math.pow(1 - poseK, 3);
+  lerpPose(poseFrom, poseTo, k);
+  camera.position.copy(camPos);
+  camera.lookAt(camTarget);
   renderer.render(scene, camera);
 }
-showWall(0);
 animate();
+
+setTimeout(() => { document.getElementById('hint').style.opacity = 0.25; }, 5000);
 </script>
 </body>
 </html>
