@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>开源侦探社 · 案件档案 · 银色实验室</title>
+<meta name="description" content="开源侦探社（IDEA-140）：每周一桩短案，周一发案、周三追加线索、周日揭晓真相。已破案件完整档案：案情、线索、真相、复盘。">
+<style>
+  :root{--bg:#07090c;--panel:rgba(255,255,255,.032);--ink:#e9eef3;--ink2:#9aa7b4;--ink3:#5f6d7a;--line:rgba(255,255,255,.09);--cyan:#67e8f9;--amber:#e8b34b;--green:#34d399;--red:#f87171}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Serif SC","Songti SC","STSong",serif;line-height:1.85}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 20px 80px}
+  a{color:var(--cyan)}
+  h1{font-size:30px;letter-spacing:.12em;margin:0 0 6px}
+  .sub{color:var(--ink2);font-size:14px;margin:0 0 28px;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .how{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:14px;color:var(--ink2);margin-bottom:36px}
+  .how b{color:var(--ink)}
+  .stats{color:var(--ink2);font-size:14px;margin-bottom:24px;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .case{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-bottom:20px}
+  .case .date{font-size:13px;color:var(--ink2);letter-spacing:.08em;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .case .title{font-size:22px;margin:6px 0 4px;letter-spacing:.06em}
+  .case .title .no{font-family:ui-monospace,"SF Mono",Consolas,monospace;font-size:13px;color:var(--cyan);letter-spacing:.14em;margin-right:10px}
+  .badge{display:inline-block;font-size:12.5px;border-radius:8px;padding:2px 10px;margin-left:8px;vertical-align:middle;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .badge.closed{background:rgba(52,211,153,.14);color:var(--green)}
+  .badge.herring{background:rgba(248,113,113,.12);color:var(--red)}
+  .badge.fiction{background:rgba(232,179,75,.14);color:var(--amber)}
+  .case h3{font-size:15px;letter-spacing:.16em;margin:20px 0 8px;color:var(--ink)}
+  .case p{font-size:14.5px;color:var(--ink2);margin:8px 0}
+  .case p b{color:var(--ink);font-weight:600}
+  .clue{border-left:2px solid var(--line);padding:2px 0 2px 14px;margin:12px 0}
+  .clue p{margin:4px 0}
+  .clue .tag{font-size:12.5px;color:var(--ink3);font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .truth{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.25);border-radius:10px;padding:14px 16px;margin-top:8px}
+  .truth p{margin:4px 0}
+  .note{font-size:12.5px;color:var(--ink3);margin-top:16px;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .note a{color:var(--ink3);text-decoration:underline}
+  .next{color:var(--ink2);font-size:14px;border:1px dashed var(--line);border-radius:12px;padding:18px 20px;text-align:center}
+  footer{margin-top:56px;font-size:12.5px;color:var(--ink2);border-top:1px solid var(--line);padding-top:16px;font-family:"Avenir Next","Segoe UI",-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>开源侦探社 · 案件档案</h1>
+  <p class="sub">每周一桩短案：周一发案、周三追加线索、周日揭晓真相。案情是虚构的，线索里的数据是真的，都能查到。</p>
+  <div class="how">玩法：<b>周一</b>发案情与前三条线索，<b>周三</b>追加两条线索，<b>周日</b>揭晓真相并逐条复盘每条线索当时指向哪、哪条是烟雾弹。每案破后，完整档案（案情、全部线索、真相、复盘）归档在此页。</div>
+  <p class="stats">已破 1 案 · 待破 0 案</p>
+
+  <div class="case" id="case-001">
+    <div class="date">案件 001 · 发案 2026-11-16 · 追加线索 2026-11-18 · 揭晓 2026-11-22<span class="badge closed">已破</span></div>
+    <div class="title"><span class="no">No.001</span>失踪的维护者</div>
+
+    <h3>案情</h3>
+    <p>维护者“老K”失踪了。</p>
+    <p>他独自维护着一个 Claude Code 技能包仓库 oldk/midnight-skills。最后一次提交停在今天凌晨 03:12，只有一行：<b>fix: typo</b>。</p>
+    <p>当晚，他的仓库 star 暴涨。可人没留一句话——没有新 issue、没有告别帖、没有 fork 声明，就这么从开源世界里消失了。</p>
+    <p>他是被大厂招安了？受不了热度跑路了？还是换了个马甲，继续在别处维护？</p>
+
+    <h3>线索</h3>
+    <div class="clue">
+      <p><b>线索一：</b>失踪的同一夜，GitHub Python 日榜头条 tradermonty/claude-trading-skills 单日 +706⭐ 断层登顶，总星 5,582（实查 5,603）、fork 1,176（实查 1,177）。17 个上榜项目里过半是 Claude Code 技能包——老K失踪的那一夜，正是“技能包”最热的一夜。</p>
+      <p class="tag">来源：GitHub 趋势日报 2026-11-16，2026-11-16 09:55 CST 仓库页实查</p>
+    </div>
+    <div class="clue">
+      <p><b>线索二：</b>同一天，NVIDIA/SkillEvaluator 登上 Python 日榜，单日 +122⭐，总星 1,706（实查 1,741）、fork 232（实查 234）。英伟达亲自下场，给 AI 技能做评估、打分——质量门、语义重叠检测、live 评估，一应俱全。老K的技能包，正是它要评估的那类东西。<span class="badge herring">烟雾弹</span></p>
+      <p class="tag">来源：GitHub 趋势日报 2026-11-16，2026-11-16 09:55 CST 仓库页实查</p>
+    </div>
+    <div class="clue">
+      <p><b>线索三：</b>同日上榜的 davila7/claude-code-templates，总星 33,762（实查 33,764）、fork 3,984：一个 Claude Code 组件的开源注册表 + CLI，把散落在各处的 1,900 多个 skills、agents、MCP 收进一个目录，一键安装。老K的技能，不需要他本人出面，就能换个名字继续分发。</p>
+      <p class="tag">来源：GitHub 趋势日报 2026-11-16，2026-11-16 09:55 CST 仓库页实查</p>
+    </div>
+    <div class="clue">
+      <p><b>线索四：</b>失踪当晚 03:47，老K最后一提交后 35 分钟，有人 fork 了 oldk/midnight-skills。那个账号当夜新建：没有头像、没有简介、没有其他仓库。fork 后唯一的动作，是把全部提交记录压成一个 init——作者信息被抹得干干净净。代码还在，人名没了。<span class="badge fiction">虚构案情元素</span></p>
+    </div>
+    <div class="clue">
+      <p><b>线索五：</b>老K 的 README 中段藏着一句不起眼的话：“午夜之后，技能不睡。”失踪后第二天，注册表里一个新上架的技能，README 末尾一字不差地写着同一句话——技能名、作者名，都与老K毫无关系。同一句话，两个名字。<span class="badge fiction">虚构案情元素</span></p>
+    </div>
+
+    <h3>真相</h3>
+    <div class="truth">
+      <p>老K没有被招安，也没有跑路。<b>他换了个马甲继续维护</b>：把原来那个“一人维护”的技能包拆散、改名，交进了开源组件注册表继续分发。</p>
+    </div>
+
+    <h3>复盘</h3>
+    <p><b>线索一 → 排除“跑路”：</b>风口正盛——一个做技能包的人，在技能包最热的一夜，没有跑路的理由。单日 +706⭐ 断层登顶，17 个上榜项目过半是技能包，热度正处顶峰。</p>
+    <p><b>线索二 → 烟雾弹：</b>指向“被大厂招安”，看似最合理的解释。但 SkillEvaluator 评的是技能本身的质量（质量门、语义重叠、live 评估），不招人；它评估的是已公开的技能仓库，不是挖维护者。大厂下场做裁判，不等于大厂把选手带走了。</p>
+    <p><b>线索三 → 指向真相：</b>换马甲继续维护——人可以消失，技能进了注册表就还在流通。1,900 多个组件收进一个目录、一键安装，老K的技能不需要他本人出面，就能换个名字继续分发。</p>
+    <p><b>线索四 → 佐证真相：</b>代码可以没有名字地流通——fork 的人要的是技能，不是老K这个名字；也可能是有人趁他消失，顺手拿走了代码。35 分钟后新建账号 fork 并压掉全部提交记录，人名被抹干净，代码仍在。</p>
+    <p><b>线索五 → 锁定真相：</b>一句只属于老K的暗语，出现在了别人的技能里——要么是他换了名字，要么是有人在学他说话。“午夜之后，技能不睡。”一字不差地出现在注册表新技能的 README 里，同一句话，两个名字。</p>
+    <p><b>读者猜测：</b>2026-11-16 10:17，有读者押中线索三——方向正确。</p>
+
+    <p class="note">虚构与真实：维护者“老K”、仓库 oldk/midnight-skills、2026-11-16 凌晨 03:12 的最后提交、他当晚 star 暴涨后失联，以及线索与他之间的关联推断，全部是虚构的案情；线索四（来历不明的 fork）与线索五（README 里的暗语）同样是虚构的案情元素。线索一至三中出现的仓库名、star 数、fork 数、单日涨幅、仓库简介，均取自 2026-11-16 GitHub Python 趋势日报，并于当日 09:55（北京时间）逐一在 GitHub 仓库页实查核对。</p>
+  </div>
+
+  <div class="next">第二案将于周一发案，敬请期待。</div>
+  <footer>银色实验室 · 开源侦探社（IDEA-140）· 每周一桩短案 · <a href="index.html">回实验室</a></footer>
+</div>
+</body>
+</html>
