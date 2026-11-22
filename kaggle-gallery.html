@@ -110,7 +110,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xe6e4df);
 
 const camera = new THREE.PerspectiveCamera(55, 2, 0.1, 100);
-camera.position.set(0, 1.8, 5.6);
+camera.position.set(0, 1.8, 4.8);
 
 const controls = new OrbitControls(camera, canvas);
 controls.target.set(0, 1.85, -2);
@@ -131,7 +131,7 @@ const dir = new THREE.DirectionalLight(0xffffff, 0.5);
 dir.position.set(2, 6, 6);
 scene.add(dir);
 function spot(x, y, z, tx, ty, tz) {
-  const s = new THREE.SpotLight(0xfff2dd, 38, 16, 0.5, 0.9, 1.4);
+  const s = new THREE.SpotLight(0xfff2dd, 12, 16, 0.42, 0.9, 1.4);
   s.position.set(x, y, z);
   s.target.position.set(tx, ty, tz);
   scene.add(s, s.target);
@@ -198,7 +198,7 @@ const matMat = new THREE.MeshStandardMaterial({ color: 0xf7f4ec, roughness: 0.9 
 const texLoader = new THREE.TextureLoader();
 function makePainting(entry) {
   const g = new THREE.Group();
-  const S = 1.7;
+  const S = 2.0;
   const frame = new THREE.Mesh(new THREE.BoxGeometry(S + 0.14, S + 0.14, 0.06), frameMat.clone());
   frame.position.z = 0.03;
   g.add(frame);
