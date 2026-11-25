@@ -7363,14 +7363,9 @@
   ],
   "lives": [
     {
-      "name": "央视卫视",
+      "name": "蛋播直播",
       "type": 0,
-      "url": "https://raw.githubusercontent.com/fanmingming/live/main/tv/m3u/itv.m3u"
-    },
-    {
-      "name": "华语综合",
-      "type": 0,
-      "url": "https://iptv-org.github.io/iptv/countries/cn.m3u"
+      "url": "https://silver8023.github.io/danbo-live.m3u"
     }
   ],
   "rules": []
